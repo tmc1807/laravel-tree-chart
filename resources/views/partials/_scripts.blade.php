@@ -103,12 +103,23 @@ window.TreeChart = (function () {
                 var downRight = 0, downTop = 0, hasDown = false;
                 if (children) {
                     var r = children.getBoundingClientRect();
-                    if (r.width > 0) { hasDown = true; downRight = r.right; downTop = r.top; }
+                    if (r.width > 0) {
+                        hasDown = true;
+                        downRight = r.right;
+                        var downCards = children.querySelectorAll(':scope > .tc-node .tc-card');
+                        var i2;
+                        for (i2 = 0; i2 < downCards.length; i2++) {
+                            var cardTop = downCards[i2].getBoundingClientRect().top;
+                            if (!downTop || cardTop < downTop) downTop = cardTop;
+                        }
+                    }
                 }
 
                 var reachesDown = false;
                 sides.forEach(function (side) {
-                    if (hasDown && rowRect.top + side.offsetHeight > downTop - 1) reachesDown = true;
+                    if (hasDown && downTop > 0 && rowRect.top + side.offsetHeight > downTop - 1) {
+                        reachesDown = true;
+                    }
                 });
 
                 var cursor = reachesDown
