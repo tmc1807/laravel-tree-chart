@@ -98,7 +98,9 @@ window.TreeChart = (function () {
                     ? collapse.querySelector(':scope > .tc-tree-children') : null;
 
                 var rowRect = row.getBoundingClientRect();
+                var cardRect = row.querySelector(':scope > .tc-anchor .tc-card').getBoundingClientRect();
                 var cardRight = rowRect.left + rowRect.width;
+                var cardMid = cardRect.top + cardRect.height / 2;
 
                 var downRight = 0, downTop = 0, hasDown = false;
                 if (children) {
@@ -109,7 +111,9 @@ window.TreeChart = (function () {
                         var downCards = children.querySelectorAll(':scope > .tc-node .tc-card');
                         var i2;
                         for (i2 = 0; i2 < downCards.length; i2++) {
-                            var cardTop = downCards[i2].getBoundingClientRect().top;
+                            var card = downCards[i2].getBoundingClientRect();
+                            if (card.width <= 0 || card.height <= 0) continue;
+                            var cardTop = card.top;
                             if (!downTop || cardTop < downTop) downTop = cardTop;
                         }
                     }
@@ -122,20 +126,28 @@ window.TreeChart = (function () {
                     }
                 });
 
-                var cursor = reachesDown
-                    ? Math.max(downRight, cardRight) + 24
-                    : cardRight + 18;
-
+                var reserve = 0;
                 sides.forEach(function (side) {
+                    var nodeW = side.offsetWidth;
+                    var overhang = Math.max(0, (nodeW - cardRect.width) / 2);
+                    var cardLeft = reachesDown
+                        ? Math.max(downRight, cardRight) + 24 + overhang
+                        : cardRight + 18;
+                    var sideLeft = cardLeft - overhang;
+
+                    side.style.left = Math.round(sideLeft - rowRect.left) + 'px';
+
                     var connector = side.querySelector(':scope > .tc-side-node-connector');
-                    var connW = Math.max(0, cursor - cardRight);
-                    if (connector) connector.style.width = connW + 'px';
-                    side.style.left = '100%';
-                    cursor = cursor + side.offsetWidth + 16;
+                    if (connector) {
+                        connector.style.left = Math.round(cardRight - sideLeft) + 'px';
+                        connector.style.width = Math.max(18, Math.round(cardLeft - cardRight)) + 'px';
+                        connector.style.top = Math.round(cardMid - rowRect.top - 1) + 'px';
+                    }
+
+                    reserve = Math.max(reserve, sideLeft + nodeW - cardRight);
                 });
 
                 if (node) {
-                    var reserve = cursor - cardRight - 16;
                     if (reserve > 0) {
                         node.style.marginRight = Math.round(reserve) + 'px';
                     } else {

@@ -80,7 +80,8 @@
     display: flex; align-items: flex-start; z-index: 2;
 }
 .tc-side-node-connector {
-    width: 18px; height: 2px; flex-shrink: 0; position: relative; align-self: center;
+    position: absolute; left: -18px; top: 42px;
+    width: 18px; height: 2px;
     border-top: 2px dashed var(--tc-connector-color, #6c757d);
 }
 .tc-side-node-connector::after {
