@@ -95,7 +95,7 @@
 .tc-btn-close:hover { opacity: 1; }
 
 .tc-body {
-    padding: .5rem; display: flex; align-items: flex-start;
+    padding: .5rem; display: flex; align-items: center;
     justify-content: space-between; gap: .5rem; cursor: pointer;
 }
 .tc-body-text { min-width: 0; flex: 1; }
@@ -111,7 +111,7 @@
     padding: .12rem .4rem; border-radius: 10px; margin-top: 4px;
     white-space: nowrap;
 }
-.tc-body-controls { display: flex; align-items: center; gap: .35rem; flex-shrink: 0; align-self: flex-end; }
+.tc-body-controls { display: flex; align-items: center; gap: .35rem; flex-shrink: 0; }
 
 .tc-caret {
     display: inline-flex; align-items: center; justify-content: center;
