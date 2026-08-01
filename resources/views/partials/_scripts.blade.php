@@ -375,7 +375,17 @@ window.TreeChart = (function () {
                 collapse.classList.add('tc-open');
                 node.classList.add('tc-open');
                 stagger(collapse);
-                setTimeout(function () { TreeChart.updateHlines(); setTimeout(TreeChart.updateHlines, 30); }, 30);
+                setTimeout(function () {
+                    TreeChart.updateHlines();
+                    setTimeout(function () {
+                        TreeChart.updateHlines();
+                        var cards = collapse.querySelectorAll(':scope .tc-card');
+                        var last = cards.length ? cards[cards.length - 1] : null;
+                        if (last && last.scrollIntoView) {
+                            last.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+                        }
+                    }, 30);
+                }, 30);
             }
         },
 
