@@ -97,6 +97,48 @@ window.TreeChart = (function () {
                 if (node) node.style.marginRight = (chart.getAttribute('data-tc-side-width') || 500) + 'px';
             });
 
+            var scroll = chart.querySelector('.tc-tree-scroll');
+            var bar = chart.querySelector('[data-tc-scrollbar]');
+            if (scroll && bar) {
+                chart.setAttribute('data-tc-scrollbar-bar', '1');
+                var track = bar.querySelector('[data-tc-scrollbar-track]');
+                var thumb = bar.querySelector('[data-tc-scrollbar-thumb]');
+                var hideTimer = null;
+
+                function ping() {
+                    if (bar.getAttribute('data-tc-active') !== '1') return;
+                    bar.classList.add('show');
+                    clearTimeout(hideTimer);
+                    hideTimer = setTimeout(function () { bar.classList.remove('show'); }, 1200);
+                }
+
+                scroll.addEventListener('scroll', function () { TreeChart.updateScrollbar(scroll); ping(); });
+                scroll.addEventListener('mouseenter', ping);
+                scroll.addEventListener('mousemove', ping);
+                scroll.addEventListener('mouseleave', function () { bar.classList.remove('show'); });
+
+                if (track && thumb) {
+                    thumb.addEventListener('pointerdown', function (e) {
+                        e.preventDefault();
+                        ping();
+                        var startX = e.clientX;
+                        var startSL = scroll.scrollLeft;
+                        var range = scroll.scrollWidth - scroll.clientWidth;
+                        var tRange = Math.max(1, track.clientWidth - thumb.offsetWidth);
+                        function move(ev) {
+                            scroll.scrollLeft = Math.max(0, Math.min(range, startSL + ((ev.clientX - startX) / tRange) * range));
+                        }
+                        function up() {
+                            window.removeEventListener('pointermove', move);
+                            window.removeEventListener('pointerup', up);
+                            setTimeout(function () { bar.classList.remove('show'); }, 1200);
+                        }
+                        window.addEventListener('pointermove', move);
+                        window.addEventListener('pointerup', up);
+                    });
+                }
+            }
+
             chart.addEventListener('click', function (e) {
                 var caret = closest(e.target, '[data-tc-collapse]');
                 if (caret) {
@@ -116,6 +158,51 @@ window.TreeChart = (function () {
                 if (closest(e.target, '.tc-switch')) return;
                 TreeChart.toggleCollapse(closest(card, '.tc-node'));
             });
+        },
+
+        intersectViewport: function (el) {
+            var r = el.getBoundingClientRect();
+            return r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
+        },
+
+        syncBars: function () {
+            document.querySelectorAll('.tc-tree-chart').forEach(function (chart) {
+                var scroll = chart.querySelector('.tc-tree-scroll');
+                var bar = chart.querySelector('[data-tc-scrollbar]');
+                if (!scroll || !bar) return;
+                if (scroll.scrollWidth > scroll.clientWidth + 2 && TreeChart.intersectViewport(scroll)) {
+                    bar.setAttribute('data-tc-active', '1');
+                } else {
+                    bar.removeAttribute('data-tc-active');
+                    bar.classList.remove('show');
+                }
+            });
+        },
+
+        updateScrollbar: function (scroll) {
+            if (!scroll) return;
+            var chart = closest(scroll, '.tc-tree-chart');
+            var bar = chart ? chart.querySelector('[data-tc-scrollbar]') : null;
+            if (!bar) return;
+            var track = bar.querySelector('[data-tc-scrollbar-track]');
+            var thumb = bar.querySelector('[data-tc-scrollbar-thumb]');
+            if (!track || !thumb) return;
+
+            if (scroll.scrollWidth <= scroll.clientWidth + 2) {
+                bar.removeAttribute('data-tc-active');
+                bar.classList.remove('show');
+                return;
+            }
+
+            var tw = track.clientWidth;
+            var thumbW = Math.max(40, tw * scroll.clientWidth / scroll.scrollWidth);
+            thumb.style.width = thumbW + 'px';
+
+            var range = scroll.scrollWidth - scroll.clientWidth;
+            var tRange = tw - thumbW;
+            thumb.style.left = (range > 0 ? (scroll.scrollLeft / range) * tRange : 0) + 'px';
+
+            TreeChart.syncBars();
         },
 
         layoutSideNodes: function (root) {
@@ -306,6 +393,8 @@ window.TreeChart = (function () {
                 var sr = scroll.getBoundingClientRect();
                 var need = Math.ceil(b.maxR - sr.right);
                 if (need > 1) scroll.scrollLeft += need;
+
+                TreeChart.updateScrollbar(scroll);
             });
         },
 
@@ -549,8 +638,13 @@ window.TreeChart = (function () {
 
     window.addEventListener('resize', function () {
         clearTimeout(TreeChart._resizeT);
-        TreeChart._resizeT = setTimeout(function () { TreeChart.updateHlines(); }, 120);
+        TreeChart._resizeT = setTimeout(function () { TreeChart.updateHlines(); TreeChart.syncBars(); }, 120);
     });
+
+    window.addEventListener('scroll', function () {
+        clearTimeout(TreeChart._scrollbarT);
+        TreeChart._scrollbarT = setTimeout(function () { TreeChart.syncBars(); }, 60);
+    }, true);
 
     // Livewire SPA + morph support (no hard dependency on Livewire).
     document.addEventListener('livewire:navigated', boot);

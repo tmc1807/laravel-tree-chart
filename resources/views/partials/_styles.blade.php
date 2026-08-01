@@ -47,6 +47,30 @@
     background: transparent;
 }
 
+/* Hide the native scrollbar when the sticky bottom bar takes over */
+.tc-tree-chart[data-tc-scrollbar-bar] .tc-tree-scroll { scrollbar-width: none; }
+.tc-tree-chart[data-tc-scrollbar-bar] .tc-tree-scroll::-webkit-scrollbar { height: 0; }
+
+/* ===== Bottom-of-screen scrollbar ===== */
+.tc-scrollbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
+    display: none; padding: 4px 10px 6px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.45) 50%, rgba(255,255,255,.8));
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+}
+.tc-scrollbar[data-tc-active] { display: block; }
+.tc-scrollbar.show { opacity: 1; pointer-events: auto; }
+.tc-scrollbar-track {
+    position: relative; height: 5px; margin: 0 auto; max-width: 1200px;
+    background: rgba(0,0,0,.08); border-radius: 3px;
+}
+.tc-scrollbar-thumb {
+    position: absolute; top: 0; left: 0; height: 100%;
+    min-width: 40px; background: rgba(0,0,0,.3); border-radius: 3px;
+    cursor: grab; transition: background .15s ease;
+}
+.tc-scrollbar-thumb:hover { background: rgba(0,0,0,.45); }
+
 /* ===== Row of siblings ===== */
 .tc-tree-children {
     display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start;

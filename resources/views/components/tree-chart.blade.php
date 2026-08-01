@@ -42,6 +42,13 @@
             @endforeach
         </div>
     </div>
+    @if($options['sticky_scrollbar'] ?? true)
+        <div class="tc-scrollbar" data-tc-scrollbar>
+            <div class="tc-scrollbar-track" data-tc-scrollbar-track>
+                <div class="tc-scrollbar-thumb" data-tc-scrollbar-thumb></div>
+            </div>
+        </div>
+    @endif
     @else
         <div class="tc-tree">
             @foreach($nodes as $node)

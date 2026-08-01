@@ -210,6 +210,28 @@ it('injects styles and scripts only once per page', function () {
         ->toBe(1);
 });
 
+it('renders the sticky bottom scrollbar by default', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => [],
+    ])->render();
+
+    expect($html)
+        ->toContain('class="tc-scrollbar" data-tc-scrollbar')
+        ->toContain('data-tc-scrollbar-thumb')
+        ->toContain('.tc-scrollbar {')
+        ->toContain('TreeChart.updateScrollbar');
+});
+
+it('omits the sticky scrollbar when disabled', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['sticky_scrollbar' => false],
+    ])->render();
+
+    expect($html)->not->toContain('class="tc-scrollbar" data-tc-scrollbar');
+});
+
 it('uses configured colors per level when node color is absent', function () {
     $html = view('tree', [
         'nodes' => [[

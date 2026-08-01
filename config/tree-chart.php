@@ -145,6 +145,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Sticky bottom scrollbar
+    |--------------------------------------------------------------------------
+    |
+    | When true and `scrollable` is enabled, a horizontal scrollbar bar sticks
+    | to the bottom edge of the screen (while the chart is in view) and stays
+    | synced with the tree's horizontal scrolling.
+    |
+    */
+
+    'sticky_scrollbar' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Demo page
     |--------------------------------------------------------------------------
     |
