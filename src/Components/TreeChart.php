@@ -40,6 +40,27 @@ class TreeChart extends Component
         return collect([$nodes])->map(fn ($node) => $this->normalizeNode($node, 0));
     }
 
+    /**
+     * Decide whether a node without an explicit `collapsed` flag starts
+     * collapsed, based on the `expand_level` option.
+     *
+     * @return true|false
+     */
+    protected function shouldCollapseAtDepth(int $depth): bool
+    {
+        $expandLevel = $this->options['expand_level'] ?? 'all';
+
+        if ($expandLevel === 'all') {
+            return false;
+        }
+
+        if ($expandLevel === 'click') {
+            return true;
+        }
+
+        return $depth >= (int) $expandLevel;
+    }
+
     protected function normalizeNode(mixed $node, int $depth): array
     {
         if ($node instanceof Node) {
@@ -65,7 +86,9 @@ class TreeChart extends Component
             'photo' => $node['photo'] ?? null,
             'color' => $node['color'] ?? null,
             'width' => $node['width'] ?? null,
-            'collapsed' => (bool) ($node['collapsed'] ?? false),
+            'collapsed' => array_key_exists('collapsed', $node)
+                ? (bool) $node['collapsed']
+                : $this->shouldCollapseAtDepth($depth),
             'side_visible' => (bool) ($node['side_visible'] ?? true),
             'hideable' => (bool) ($node['hideable'] ?? false),
             'children' => collect($children)

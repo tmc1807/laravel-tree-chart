@@ -33,6 +33,7 @@ Per-component options always win.
 | `animate` | bool | `true` | Staggered enter/exit animations for cards and connector lines. |
 | `connector` | string | `dashed` | Connector line style: `dashed` or `solid`. |
 | `collapsible` | bool | `true` | Render a chevron that toggles children. |
+| `expand_level` | `'all'` \| `'click'` \| int | `'all'` | Initial expansion. `'all'` shows every node expanded; `'click'` starts everything collapsed (expand via chevron); an integer N auto-expands levels `0..N` and collapses deeper ones. An explicit node `collapsed` flag always wins. |
 | `side_toggle` | bool | `true` | Render a switch to show/hide side panels. |
 | `scrollable` | bool | `true` | Wrap the tree in a horizontally scrollable container. |
 | `demo` | bool | `false` | Register the `/tree-chart/demo` route (development only). |
@@ -65,6 +66,7 @@ return [
     'animate'     => true,
     'connector'   => 'dashed',
     'collapsible' => true,
+    'expand_level' => 'all',
     'side_toggle' => true,
     'scrollable'  => true,
     'title'       => null,

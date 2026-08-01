@@ -155,6 +155,7 @@ $options = [
     'animate'     => true,
     'connector'   => 'dashed', // 'dashed' | 'solid'
     'collapsible' => true,
+    'expand_level' => 'all', // 'all' (semua tampil) | 'click' (klik baru muncul) | 3 (auto sampai level 3)
     'side_toggle' => true,
     'scrollable'  => true,
 ];

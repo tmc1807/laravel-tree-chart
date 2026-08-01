@@ -95,6 +95,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Initial expansion
+    |--------------------------------------------------------------------------
+    |
+    | Controls which nodes start expanded:
+    | - 'all'  (default) : every node starts expanded.
+    | - 'click'          : every node starts collapsed — expand by clicking
+    |                      the chevron.
+    | - int N            : levels 0..N start expanded; deeper levels start
+    |                      collapsed (auto-expand up to level N).
+    |
+    | A node that explicitly sets `collapsed` always wins over this option.
+    |
+    */
+
+    'expand_level' => 'all',
+
+    /*
+    |--------------------------------------------------------------------------
     | Side panel toggle
     |--------------------------------------------------------------------------
     |

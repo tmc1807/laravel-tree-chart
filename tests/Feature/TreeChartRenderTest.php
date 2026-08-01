@@ -79,6 +79,57 @@ it('honours collapsed nodes', function () {
         ->not->toContain('tc-collapse tc-open');
 });
 
+it('starts everything collapsed with expand_level click', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'children' => [['id' => 'b', 'label' => 'Beta']],
+        ]],
+        'options' => ['expand_level' => 'click'],
+    ])->render();
+
+    expect($html)
+        ->toContain('Alpha')
+        ->not->toContain('tc-collapse tc-open');
+});
+
+it('auto-expands only up to the configured level', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'children' => [[
+                'id' => 'b',
+                'label' => 'Beta',
+                'children' => [['id' => 'c', 'label' => 'Gamma']],
+            ]],
+        ]],
+        'options' => ['expand_level' => 1],
+    ])->render();
+
+    expect(substr_count($html, 'tc-collapse tc-open'))
+        ->toBe(1) // level 0 expanded
+        ->and(substr_count($html, 'class="tc-collapse'))
+        ->toBe(2) // level 0 + level 1, only level 0 open
+        ->and($html)->toContain('Beta');
+});
+
+it('lets an explicit collapsed flag override expand_level', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'collapsed' => true,
+            'children' => [['id' => 'b', 'label' => 'Beta']],
+        ]],
+        'options' => ['expand_level' => 'all'],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('tc-collapse tc-open');
+});
+
 it('injects styles and scripts only once per page', function () {
     $html = view('two-trees', [
         'nodesA' => [['id' => 'a', 'label' => 'A']],
