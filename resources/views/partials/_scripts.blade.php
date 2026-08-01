@@ -228,6 +228,9 @@ window.TreeChart = (function () {
 
                 tree.style.paddingLeft = '0';
                 tree.style.paddingRight = '0';
+                tree.style.marginLeft = '';
+                tree.style.marginRight = '';
+                tree.style.boxSizing = '';
                 void tree.offsetHeight;
 
                 function cardBounds() {
@@ -246,8 +249,15 @@ window.TreeChart = (function () {
 
                 var treeRect = tree.getBoundingClientRect();
                 var padL = Math.max(0, Math.round(treeRect.left - b.minL));
-                tree.style.paddingLeft = padL + 'px';
-                void tree.offsetHeight;
+                if (padL > 0) {
+                    // content-box + left-align so the padding shifts the content
+                    // fully right (border-box + centered flex would eat half of it)
+                    tree.style.boxSizing = 'content-box';
+                    tree.style.marginLeft = '0';
+                    tree.style.marginRight = '0';
+                    tree.style.paddingLeft = padL + 'px';
+                    void tree.offsetHeight;
+                }
 
                 treeRect = tree.getBoundingClientRect();
                 b = cardBounds();
