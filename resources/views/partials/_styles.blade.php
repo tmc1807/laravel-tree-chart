@@ -74,8 +74,11 @@
 .tc-anchor .tc-card { width: 100%; }
 
 /* row holding the parent card + side-placed children */
-.tc-anchor-row { display: flex; align-items: flex-start; gap: 0; position: relative; }
-.tc-side-node { display: flex; align-items: flex-start; position: relative; }
+.tc-anchor-row { display: flex; align-items: flex-start; position: relative; }
+.tc-side-node {
+    position: absolute; left: 100%; top: 0;
+    display: flex; align-items: flex-start; z-index: 2;
+}
 .tc-side-node-connector {
     width: 18px; height: 2px; flex-shrink: 0; position: relative; align-self: center;
     border-top: 2px dashed var(--tc-connector-color, #6c757d);
