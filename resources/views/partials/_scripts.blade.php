@@ -321,13 +321,35 @@ window.TreeChart = (function () {
             TreeChart.fitScroll(scope);
         },
 
+        settleAnimations: function (root) {
+            var chart = (root && root.classList && root.classList.contains('tc-tree-chart'))
+                ? root : closest(root, '.tc-tree-chart');
+            if (!chart || !chart.getAnimations || !chart.querySelectorAll) return;
+            chart.querySelectorAll('.tc-card, .tc-up, .tc-hline').forEach(function (el) {
+                if (el.classList.contains('tc-hiding')) return;
+                var anims = el.getAnimations();
+                for (var i = 0; i < anims.length; i++) {
+                    var a = anims[i];
+                    if (a.playState !== 'running' && a.playState !== 'paused') continue;
+                    if (a.animationName === 'tcCardIn' || a.animationName === 'tcLineIn') {
+                        try { a.finish(); } catch (e) {}
+                    }
+                }
+            });
+        },
+
         toggleCollapse: function (node) {
             if (!node) return;
             var collapse = node.querySelector(':scope > .tc-collapse');
             if (!collapse) return;
 
             if (collapse.classList.contains('tc-open')) {
-                hideCollapse(node, function () { setTimeout(TreeChart.updateHlines, 30); });
+                hideCollapse(node, function () {
+                    setTimeout(function () {
+                        TreeChart.updateHlines();
+                        TreeChart.settleAnimations(node);
+                    }, 30);
+                });
             } else {
                 collapse.classList.add('tc-open');
                 node.classList.add('tc-open');
@@ -359,7 +381,10 @@ window.TreeChart = (function () {
                     side.classList.remove('show');
                     if (node) node.style.marginRight = '';
                     side.querySelectorAll('.tc-hiding').forEach(function (el) { el.classList.remove('tc-hiding'); });
-                    setTimeout(function () { TreeChart.updateHlines(); setTimeout(TreeChart.updateHlines, 30); }, 20);
+                    setTimeout(function () {
+                        TreeChart.updateHlines();
+                        TreeChart.settleAnimations(chart);
+                    }, 20);
                 }, SIDE_HIDING);
             }
         },
@@ -397,6 +422,7 @@ window.TreeChart = (function () {
                 node.style.display = 'none';
                 node.querySelectorAll('.tc-hiding').forEach(function (el) { el.classList.remove('tc-hiding'); });
                 TreeChart.updateHlines();
+                TreeChart.settleAnimations(chart);
             }, HIDE_NODE_HIDING);
         },
 
