@@ -10,7 +10,7 @@
     $photoAlt = $node['label'] !== '' ? $node['label'] : $node['header'];
 @endphp
 
-<div class="tc-node"
+<div class="tc-node{{ $node['collapsed'] ? '' : ' tc-open' }}"
      data-tc-id="{{ $node['id'] }}"
      data-tc-dom="{{ $domId }}"
      data-tc-label="{{ $hideLabel }}"
