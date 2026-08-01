@@ -116,6 +116,7 @@ window.TreeChart = (function () {
                 var reserve = 0;
                 sides.forEach(function (side) {
                     var nodeW = side.offsetWidth;
+                    if (nodeW <= 0) return;
                     var overhang = Math.max(0, (nodeW - cardRect.width) / 2);
 
                     var sideTop = rowRect.top;

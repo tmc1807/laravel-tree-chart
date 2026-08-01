@@ -89,6 +89,8 @@
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--tc-connector-color, #6c757d); z-index: 2;
 }
+/* side-placed children only appear while their parent is expanded */
+.tc-node:not(.tc-open) > .tc-anchor-row > .tc-side-node { display: none; }
 
 .tc-card {
     border: 1px solid #e9ecef; border-radius: 10px; background: #fff;

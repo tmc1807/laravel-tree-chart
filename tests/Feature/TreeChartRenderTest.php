@@ -176,6 +176,28 @@ it('keeps side-positioned children out of the down-children row', function () {
         ->and($downLabelPos)->toBeGreaterThan($collapsePos);
 });
 
+it('hides side-positioned children while the parent is collapsed', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'collapsed' => true,
+            'children' => [
+                ['id' => 's1', 'label' => 'Samping', 'position' => 'side'],
+                ['id' => 'd1', 'label' => 'Bawah'],
+            ],
+        ]],
+        'options' => [],
+    ])->render();
+
+    preg_match('/class="tc-node[^"]*"\s+data-tc-id="a"/', $html, $m);
+
+    expect($m)->not->toBeEmpty()
+        ->and($m[0])->not->toContain('tc-open')
+        ->and($html)->toContain('tc-side-node')
+        ->and($html)->toContain('.tc-node:not(.tc-open) > .tc-anchor-row > .tc-side-node { display: none; }');
+});
+
 it('injects styles and scripts only once per page', function () {
     $html = view('two-trees', [
         'nodesA' => [['id' => 'a', 'label' => 'A']],
