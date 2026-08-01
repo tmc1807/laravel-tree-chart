@@ -18,9 +18,9 @@
      data-tc-dom="{{ $domId }}"
      data-tc-label="{{ $hideLabel }}"
      style="--tc-node-color:{{ $color }};">
-    {{-- @if(! $isRoot)
+    @if(! $isRoot)
         <div class="tc-up"></div>
-    @endif --}}
+    @endif
 
     <div class="tc-anchor-row">
         <div class="tc-anchor" style="width:{{ $width }}px;">
