@@ -2,8 +2,8 @@
 <script>
 window.TreeChart = (function () {
     var SIDE_HIDING = 320;
-    var COLLAPSE_HIDING = 300;
-    var HIDE_NODE_HIDING = 400;
+    var COLLAPSE_HIDING = 520;
+    var HIDE_NODE_HIDING = 480;
 
     function closest(el, sel) { return el.closest ? el.closest(sel) : null; }
 
@@ -44,14 +44,33 @@ window.TreeChart = (function () {
     function hideCollapse(node, done) {
         var collapse = node.querySelector(':scope > .tc-collapse');
         if (!collapse) return done();
-        collapse.querySelectorAll('.tc-card, .tc-up, .tc-hline, .tc-tree-children').forEach(function (el, i) {
+        var children = collapse.querySelector('.tc-tree-children');
+        var cards = collapse.querySelectorAll('.tc-card, .tc-up, .tc-hline, .tc-tree-children');
+        cards.forEach(function (el, i) {
             el.classList.add('tc-hiding');
-            el.style.setProperty('--tc-delay', Math.min(i * 40, 400) + 'ms');
+            el.style.setProperty('--tc-delay', Math.min(i * 30, 360) + 'ms');
         });
+        // Animate collapse container height for smooth closing
+        if (children) {
+            var h = children.offsetHeight;
+            children.style.height = h + 'px';
+            children.style.overflow = 'hidden';
+            children.style.transition = 'height 350ms cubic-bezier(.4,0,.2,1), opacity 250ms cubic-bezier(.4,0,.2,1)';
+            // Force reflow
+            void children.offsetHeight;
+            children.style.height = '0';
+            children.style.opacity = '0';
+        }
         setTimeout(function () {
             collapse.classList.remove('tc-open');
             node.classList.remove('tc-open');
             collapse.querySelectorAll('.tc-hiding').forEach(function (el) { el.classList.remove('tc-hiding'); });
+            if (children) {
+                children.style.height = '';
+                children.style.overflow = '';
+                children.style.transition = '';
+                children.style.opacity = '';
+            }
             done();
         }, COLLAPSE_HIDING);
     }
