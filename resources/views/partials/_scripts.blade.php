@@ -74,10 +74,11 @@ window.TreeChart = (function () {
                     TreeChart.hideNode(hideBtn.getAttribute('data-tc-hide'));
                     return;
                 }
-                var body = closest(e.target, '.tc-body');
-                if (!body) return;
-                if (closest(e.target, 'input, .tc-switch')) return;
-                TreeChart.toggleCollapse(closest(body, '.tc-node'));
+                var card = closest(e.target, '.tc-card');
+                if (!card) return;
+                if (closest(e.target, '.tc-side-card')) return;
+                if (closest(e.target, '.tc-switch')) return;
+                TreeChart.toggleCollapse(closest(card, '.tc-node'));
             });
         },
 
