@@ -25,6 +25,20 @@ window.TreeChart = (function () {
             el.style.animation = '';
             el.style.setProperty('--tc-delay', Math.min(i * 60, 1200) + 'ms');
         }
+
+        // Failsafe: entrance animations can freeze at the first frame in some
+        // real-browser conditions (occluded/tab energy saver), leaving cards
+        // stuck transparent. Force any card still below full opacity to settle.
+        if (scope._tcStaggerT) clearTimeout(scope._tcStaggerT);
+        scope._tcStaggerT = setTimeout(function () {
+            if (scope === document) {
+                document.querySelectorAll('.tc-tree-chart').forEach(function (c) {
+                    TreeChart.settleAnimations(c);
+                });
+            } else {
+                TreeChart.settleAnimations(scope);
+            }
+        }, 2000);
     }
 
     function hideCollapse(node, done) {
