@@ -218,6 +218,43 @@ window.TreeChart = (function () {
             });
         },
 
+        fitScroll: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-tree-chart').forEach(function (chart) {
+                var scroll = chart.querySelector('.tc-tree-scroll');
+                var tree = chart.querySelector('.tc-tree');
+                if (!scroll || !tree) return;
+
+                tree.style.paddingLeft = '0';
+                tree.style.paddingRight = '0';
+                void tree.offsetHeight;
+
+                function cardBounds() {
+                    var minL = null, maxR = null;
+                    chart.querySelectorAll('.tc-card').forEach(function (c) {
+                        var r = c.getBoundingClientRect();
+                        if (r.width <= 0 || r.height <= 0) return;
+                        if (minL === null || r.left < minL) minL = r.left;
+                        if (maxR === null || r.right > maxR) maxR = r.right;
+                    });
+                    return { minL: minL, maxR: maxR };
+                }
+
+                var b = cardBounds();
+                if (b.minL === null) return;
+
+                var treeRect = tree.getBoundingClientRect();
+                var padL = Math.max(0, Math.round(treeRect.left - b.minL));
+                tree.style.paddingLeft = padL + 'px';
+                void tree.offsetHeight;
+
+                treeRect = tree.getBoundingClientRect();
+                b = cardBounds();
+                var padR = Math.max(0, Math.round(b.maxR - treeRect.right));
+                tree.style.paddingRight = padR + 'px';
+            });
+        },
+
         updateHlines: function (root) {
             var scope = root || document;
             TreeChart.layoutDownNodes(scope);
@@ -265,6 +302,8 @@ window.TreeChart = (function () {
                 hline.style.width = Math.max(0, right - left) + 'px';
                 hline.style.right = 'auto';
             });
+
+            TreeChart.fitScroll(scope);
         },
 
         toggleCollapse: function (node) {
