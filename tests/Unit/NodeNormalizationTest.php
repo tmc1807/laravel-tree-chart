@@ -20,15 +20,12 @@ it('normalizes plain arrays recursively', function () {
 it('normalizes collections and objects', function () {
     $node = Node::make('x', 'X')
         ->header('Header X')
-        ->badge('3 Items', '#ff0000')
         ->hideable()
         ->child(Node::make('y', 'Y')->collapsed());
 
     $component = new TreeChart(collect([$node]));
 
     expect($component->nodes[0]['header'])->toBe('Header X')
-        ->and($component->nodes[0]['badge'])->toBe('3 Items')
-        ->and($component->nodes[0]['badge_color'])->toBe('#ff0000')
         ->and($component->nodes[0]['hideable'])->toBeTrue()
         ->and($component->nodes[0]['children'][0]['id'])->toBe('y')
         ->and($component->nodes[0]['children'][0]['collapsed'])->toBeTrue();

@@ -45,7 +45,7 @@ Nama class utama:
 | `.tc-node`, `.tc-up` | Kolom node dan garis konektor vertikal. |
 | `.tc-tree-children`, `.tc-hline` | Baris sibling dan konektor horizontal. |
 | `.tc-anchor`, `.tc-card` | Pembungkus kartu dan kartu. |
-| `.tc-head`, `.tc-body`, `.tc-title`, `.tc-sub`, `.tc-badge` | Bagian-bagian kartu. |
+| `.tc-head`, `.tc-body`, `.tc-title`, `.tc-sub` | Bagian-bagian kartu. |
 | `.tc-side`, `.tc-side-card`, `.tc-side-connector` | Panel samping. |
 | `.tc-collapse` (+ `.tc-open`) | Kontainer anak yang bisa dilipat. |
 | `.tc-switch` | Saklar toggle murni CSS. |

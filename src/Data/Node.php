@@ -27,10 +27,6 @@ class Node
 
     public string $subLabel = '';
 
-    public ?string $badge = null;
-
-    public ?string $badgeColor = null;
-
     public ?string $photo = null;
 
     public string $position = 'down';
@@ -87,14 +83,6 @@ class Node
     public function subLabel(string $subLabel): static
     {
         $this->subLabel = $subLabel;
-
-        return $this;
-    }
-
-    public function badge(?string $badge, ?string $color = null): static
-    {
-        $this->badge = $badge;
-        $this->badgeColor = $color;
 
         return $this;
     }
@@ -196,8 +184,6 @@ class Node
             'header' => $this->header,
             'label' => $this->label,
             'sub_label' => $this->subLabel,
-            'badge' => $this->badge,
-            'badge_color' => $this->badgeColor,
             'photo' => $this->photo,
             'position' => $this->position,
             'color' => $this->color,

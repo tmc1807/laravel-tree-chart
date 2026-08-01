@@ -73,32 +73,27 @@ Bangun node sebagai array bersarang:
 ```php
 $nodes = [
     [
-        'id'          => 'visi',
-        'header'      => 'Visi',
-        'label'       => 'Terwujudnya Masyarakat Sejahtera',
-        'sub_label'   => 'Periode 2025 - 2030',
-        'badge'       => '1 Tujuan',
-        'badge_color' => '#1cc88a',
-        'photo'       => 'https://example.test/foto/kepala-daerah.jpg',
-        'color'       => '#4e73df',
-        'children'    => [
+        'id'        => 'visi',
+        'header'    => 'Visi',
+        'label'     => 'Terwujudnya Masyarakat Sejahtera',
+        'sub_label' => 'Periode 2025 - 2030',
+        'photo'     => 'https://example.test/foto/kepala-daerah.jpg',
+        'color'     => '#4e73df',
+        'children'  => [
             [
-                'id'          => 'm-1',
-                'header'      => 'Misi 1',
-                'label'       => 'Meningkatkan kualitas SDM',
-                'sub_label'   => 'Sasaran pembangunan manusia',
-                'badge'       => '2 Tujuan',
-                'badge_color' => '#1cc88a',
-                'hideable'    => true,
-                'children'    => [
+                'id'        => 'm-1',
+                'header'    => 'Misi 1',
+                'label'     => 'Meningkatkan kualitas SDM',
+                'sub_label' => 'Sasaran pembangunan manusia',
+                'hideable'  => true,
+                'children'  => [
                     [
-                        'id'          => 't-1',
-                        'header'      => 'Tujuan 1',
-                        'label'       => 'Meningkatkan kualitas pendidikan',
-                        'badge'       => '3 Indikator',
-                        'position'    => 'side',
-                        'side'        => view('partials.indicator', ['rows' => $indikatorRows]),
-                        'children'    => [
+                        'id'       => 't-1',
+                        'header'   => 'Tujuan 1',
+                        'label'    => 'Meningkatkan kualitas pendidikan',
+                        'position' => 'side',
+                        'side'     => view('partials.indicator', ['rows' => $indikatorRows]),
+                        'children' => [
                             [
                                 'id'    => 's-1',
                                 'label' => 'Meningkatnya mutu layanan pendidikan',
@@ -120,10 +115,8 @@ $nodes = [
 | `header` | string | Teks pada baris header berwarna (mis. `Misi 1`). Hapus untuk menyembunyikan baris header. |
 | `label` | string | Teks utama pada badan kartu. |
 | `sub_label` | string | Teks sekunder redup pada badan kartu. |
-| `badge` | string | Pill kecil pada badan kartu (mis. `3 Tujuan`). |
-| `badge_color` | string | Warna pill; default mengikuti warna node. |
 | `photo` | string | URL gambar opsional yang dirender sebagai avatar bulat. Jika kosong, opsi `photo_placeholder` yang ditampilkan. |
-| `position` | string | Penempatan relatif terhadap parent: `down` (di bawah, default) atau `side` (di samping kartu parent). |
+| `position` | string | Penempatan relatif terhadap parent: `down` (ke bawah, default) atau `side` (ke samping kartu parent). |
 | `color` | string | Warna hex untuk border kartu, header, dan garis. Jatuh ke palet per level jika tidak ada. |
 | `width` | int | Lebar kartu dalam px; default mengikuti opsi `card_width`. |
 | `children` | array | Node anak (bersarang). |
@@ -149,7 +142,6 @@ $nodes = [
         ->child(
             Node::make('m-1', 'Meningkatkan kualitas SDM')
                 ->header('Misi 1')
-                ->badge('2 Tujuan', '#1cc88a')
                 ->hideable()
         ),
 ];

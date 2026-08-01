@@ -48,31 +48,26 @@ Buat data node (misalnya di controller):
 ```php
 $nodes = [
     [
-        'id'          => 'visi',
-        'header'      => 'Visi',
-        'label'       => 'Terwujudnya Masyarakat yang Adil dan Sejahtera',
-        'sub_label'   => 'Periode 2025 - 2030',
-        'badge'       => '1 Tujuan',
-        'badge_color' => '#1cc88a',
-        'photo'       => 'https://example.test/foto/kepala-daerah.jpg',
-        'color'       => '#4e73df',
-        'children'    => [
+        'id'        => 'visi',
+        'header'    => 'Visi',
+        'label'     => 'Terwujudnya Masyarakat yang Adil dan Sejahtera',
+        'sub_label' => 'Periode 2025 - 2030',
+        'photo'     => 'https://example.test/foto/kepala-daerah.jpg',
+        'color'     => '#4e73df',
+        'children'  => [
             [
-                'id'          => 'm-1',
-                'header'      => 'Misi 1',
-                'label'       => 'Meningkatkan kualitas sumber daya manusia',
-                'sub_label'   => 'Sasaran pembangunan manusia',
-                'badge'       => '2 Tujuan',
-                'badge_color' => '#1cc88a',
-                'hideable'    => true,
-                'children'    => [
+                'id'        => 'm-1',
+                'header'    => 'Misi 1',
+                'label'     => 'Meningkatkan kualitas sumber daya manusia',
+                'sub_label' => 'Sasaran pembangunan manusia',
+                'hideable'  => true,
+                'children'  => [
                     [
-                        'id'          => 't-1',
-                        'header'      => 'Tujuan 1',
-                        'label'       => 'Meningkatkan kualitas pendidikan',
-                        'badge'       => '3 Indikator',
-                        'position'    => 'side',
-                        'side'        => view('partials.indicator', ['rows' => $indikatorRows]),
+                        'id'       => 't-1',
+                        'header'   => 'Tujuan 1',
+                        'label'    => 'Meningkatkan kualitas pendidikan',
+                        'position' => 'side',
+                        'side'     => view('partials.indicator', ['rows' => $indikatorRows]),
                     ],
                 ],
             ],

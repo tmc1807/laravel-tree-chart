@@ -3,7 +3,6 @@
     $sideChildren = array_values(array_filter($node['children'], fn ($child) => $child['position'] === 'side'));
     $hasDownChildren = count($downChildren) > 0;
     $isCollapsible = ($options['collapsible'] ?? true) && $hasDownChildren;
-    $badgeColor = $node['badge_color'] ?: $color;
     $hideLabel = $node['header'] !== '' ? $node['header'] : ($node['label'] !== '' ? $node['label'] : $node['id']);
     $sideVisible = $node['has_side'] && (bool) $node['side_visible'];
     $photoEnabled = (bool) ($options['photo'] ?? true);
@@ -45,9 +44,6 @@
                         @endif
                         @if($node['sub_label'] !== '')
                             <span class="tc-sub">{{ $node['sub_label'] }}</span>
-                        @endif
-                        @if($node['badge'])
-                            <span class="tc-badge" style="background:{{ $badgeColor }};">{{ $node['badge'] }}</span>
                         @endif
                     </div>
                     <div class="tc-body-controls">

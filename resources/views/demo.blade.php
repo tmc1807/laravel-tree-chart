@@ -43,8 +43,6 @@
                         'id' => 'm-1',
                         'header' => 'Misi 1',
                         'label' => 'Meningkatkan kualitas sumber daya manusia',
-                        'badge' => '2 Tujuan',
-                        'badge_color' => '#1cc88a',
                         'hideable' => true,
                         'photo' => 'https://i.pravatar.cc/80?img=5',
                         'children' => [
@@ -52,7 +50,6 @@
                                 'id' => 't-1-1',
                                 'header' => 'Tujuan 1',
                                 'label' => 'Meningkatkan kualitas pendidikan',
-                                'badge' => '2 Sasaran',
                                 'color' => '#36b9cc',
                                 'side' => view('tree-chart::demo-partials.indicator', [
                                     'title' => 'Indikator Tujuan',
@@ -66,8 +63,6 @@
                                         'id' => 's-1-1-1',
                                         'header' => 'Sasaran 1.1',
                                         'label' => 'Meningkatnya mutu dan pemerataan layanan pendidikan',
-                                        'badge' => '2 Program',
-                                        'badge_color' => '#f6c23e',
                                         'side' => view('tree-chart::demo-partials.indicator', [
                                             'title' => 'Indikator Sasaran',
                                             'rows' => [
@@ -80,7 +75,6 @@
                                                 'id' => 'p-1-1-1-1',
                                                 'header' => 'Program',
                                                 'label' => 'Program Wajib Belajar Pendidikan Dasar',
-                                                'badge' => '3 Outcome',
                                                 'color' => '#6f42c1',
                                                 'side' => view('tree-chart::demo-partials.outcome', [
                                                     'outcomes' => [
@@ -120,7 +114,6 @@
                                 'id' => 't-1-2',
                                 'header' => 'Tujuan 2',
                                 'label' => 'Meningkatkan kualitas kesehatan masyarakat',
-                                'badge' => '1 Sasaran',
                                 'collapsed' => true,
                                 'children' => [
                                     [
@@ -136,8 +129,6 @@
                         'id' => 'm-2',
                         'header' => 'Misi 2',
                         'label' => 'Mewujudkan pertumbuhan ekonomi yang inklusif',
-                        'badge' => '1 Tujuan',
-                        'badge_color' => '#1cc88a',
                         'hideable' => true,
                         'photo' => 'https://i.pravatar.cc/80?img=32',
                         'children' => [

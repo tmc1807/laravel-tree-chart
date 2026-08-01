@@ -182,11 +182,6 @@
 .tc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tc-title { font-size: .68rem; line-height: 1.3; font-weight: 600; color: #212529; display: block; }
 .tc-sub { font-size: .62rem; color: #6c757d; display: block; margin-top: 2px; }
-.tc-badge {
-    display: inline-block; font-size: .58rem; font-weight: 700; color: #fff;
-    padding: .12rem .4rem; border-radius: 10px; margin-top: 4px;
-    white-space: nowrap;
-}
 .tc-body-controls { display: flex; align-items: center; gap: .35rem; flex-shrink: 0; }
 
 .tc-caret {

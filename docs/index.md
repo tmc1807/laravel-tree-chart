@@ -40,7 +40,6 @@ $nodes = [
         'header'    => 'Visi',
         'label'     => 'Terwujudnya Masyarakat Sejahtera',
         'sub_label' => 'Periode 2025 - 2030',
-        'badge'     => '1 Tujuan',
         'color'     => '#4e73df',
         'photo'     => 'https://example.test/foto/kepala-daerah.jpg', // opsional
         'children'  => [

@@ -81,8 +81,6 @@ class TreeChart extends Component
             'header' => (string) ($node['header'] ?? ''),
             'label' => (string) ($node['label'] ?? ''),
             'sub_label' => (string) ($node['sub_label'] ?? ''),
-            'badge' => $node['badge'] ?? null,
-            'badge_color' => $node['badge_color'] ?? null,
             'photo' => $node['photo'] ?? null,
             'position' => ($node['position'] ?? 'down') === 'side' ? 'side' : 'down',
             'color' => $node['color'] ?? null,

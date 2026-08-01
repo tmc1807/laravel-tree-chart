@@ -16,10 +16,8 @@ dinormalkan secara otomatis). Hanya `id` dan `label` yang wajib.
 | `header` | string | Teks pada baris header berwarna (mis. `Misi 1`). Hapus untuk menyembunyikan baris header. |
 | `label` | string | Teks utama pada badan kartu. |
 | `sub_label` | string | Teks sekunder redup di bawah label. |
-| `badge` | string | Pill kecil pada badan kartu (mis. `3 Tujuan`). |
-| `badge_color` | string | Warna pill. Default mengikuti warna node. |
 | `photo` | string | URL gambar opsional yang ditampilkan sebagai avatar bulat. Jika tidak ada (atau kosong), kartu menampilkan gambar `photo_placeholder` sebagai gantinya. |
-| `position` | string | Tempat node dirender relatif terhadap parent: `down` (di bawah, default) atau `side` (di samping kartu parent, dihubungkan garis horizontal). |
+| `position` | string | Tempat node dirender relatif terhadap parent: `down` (ke bawah, default) atau `side` (ke samping kartu parent, dihubungkan garis horizontal). |
 | `color` | string | Warna hex untuk border kartu, latar header, dan garis penghubung. Jatuh ke palet per level jika tidak ada. |
 | `width` | int | Lebar kartu dalam px. Default mengikuti opsi `card_width`. |
 | `children` | array | Node anak bersarang (rekursif). |
@@ -39,8 +37,6 @@ $nodes = [
         'header'      => 'Root',
         'label'       => 'Tujuan utama',
         'sub_label'   => 'Periode 2025 - 2030',
-        'badge'       => '3 anak',
-        'badge_color' => '#1cc88a',
         'photo'       => 'https://example.test/foto/kepala-daerah.jpg',
         'color'       => '#4e73df',
         'width'       => 320,
@@ -104,21 +100,21 @@ $nodes = [
         ->child(
             Node::make('m-1', 'Meningkatkan kualitas SDM')
                 ->header('Misi 1')
-                ->badge('2 Tujuan', '#1cc88a')
                 ->hideable()
                 ->child(Node::make('t-1', 'Meningkatkan kualitas pendidikan')),
         ),
 ];
 ```
 
-Metode yang tersedia: `id()`, `header()`, `label()`, `subLabel()`, `badge()`,
+Metode yang tersedia: `id()`, `header()`, `label()`, `subLabel()`,
 `photo()`, `position()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
 `children()`, `child()`, `side()`, `extra()`.
 
-## Penempatan samping
+## Penempatan node
 
-Sebuah anak bisa dirender **di samping** parent-nya, bukan di bawahnya, dengan
-`'position' => 'side'`:
+Sebuah anak bisa dirender **ke samping** parent-nya (kanan, dihubungkan garis
+horizontal) atau **ke bawah** parent-nya (seperti biasa). Nilai `position`:
+`side` untuk ke samping, `down` untuk ke bawah (default):
 
 ```php
 $nodes = [
@@ -133,6 +129,6 @@ $nodes = [
 ];
 ```
 
-Anak `side` digambar di sebelah kanan kartu parent, dihubungkan garis horizontal
-pendek, dan bisa berisi anak lagi. Anak `down` (default) dirender di bawah
-parent seperti biasa.
+Anak `side` digambar ke samping kanan kartu parent, dihubungkan garis horizontal
+pendek, dan bisa berisi anak lagi. Anak `down` digambar ke bawah parent seperti
+biasa.
