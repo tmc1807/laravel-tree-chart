@@ -150,7 +150,9 @@ window.TreeChart = (function () {
                 });
 
                 if (node) {
-                    if (reserve > 0) {
+                    var siblingRow = node.parentElement
+                        && node.parentElement.classList.contains('tc-tree-children');
+                    if (reserve > 0 && siblingRow && node.nextElementSibling) {
                         node.style.marginRight = Math.round(reserve) + 'px';
                     } else {
                         node.style.marginRight = '';
@@ -260,7 +262,11 @@ window.TreeChart = (function () {
                 treeRect = tree.getBoundingClientRect();
                 b = cardBounds();
                 var padR = Math.max(0, Math.round(b.maxR - treeRect.right));
-                tree.style.paddingRight = padR + 'px';
+                if (padR > 0) {
+                    tree.style.boxSizing = 'content-box';
+                    tree.style.paddingRight = padR + 'px';
+                    void tree.offsetHeight;
+                }
             });
         },
 
