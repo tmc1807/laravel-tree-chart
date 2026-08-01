@@ -23,6 +23,7 @@
 .tc-tree-children {
     display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start;
     gap: 14px; position: relative; padding-top: 24px;
+    transition: gap .35s cubic-bezier(.16,1,.3,1), padding-top .35s cubic-bezier(.16,1,.3,1);
 }
 .tc-tree-children::before {
     content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 20px;
@@ -43,6 +44,7 @@
     height: 2px; position: absolute; top: 24px; left: 0; width: 0; right: auto;
     z-index: 1; display: none; pointer-events: none;
     background: var(--tc-children-color, #6c757d);
+    transition: left .35s cubic-bezier(.16,1,.3,1), width .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
 }
 .tc-tree-chart.tc-connector-dashed .tc-hline {
     background: repeating-linear-gradient(to right, var(--tc-children-color, #6c757d) 0, var(--tc-children-color, #6c757d) 6px, transparent 6px, transparent 10px);
@@ -52,6 +54,7 @@
 .tc-node {
     display: flex; flex-direction: column; align-items: center;
     position: relative; flex-shrink: 0;
+    transition: margin-right .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1);
 }
 .tc-node.tc-hidden { display: none !important; }
 
@@ -59,6 +62,7 @@
 .tc-up {
     width: 2px; height: 24px; flex-shrink: 0; position: relative;
     background: var(--tc-node-color, #6c757d);
+    transition: opacity .3s ease, transform .35s cubic-bezier(.16,1,.3,1);
 }
 .tc-tree-chart.tc-connector-dashed .tc-up {
     background: repeating-linear-gradient(to bottom, var(--tc-node-color, #6c757d) 0, var(--tc-node-color, #6c757d) 6px, transparent 6px, transparent 10px);
@@ -74,10 +78,11 @@
 .tc-anchor .tc-card { width: 100%; }
 
 /* row holding the parent card + side-placed children */
-.tc-anchor-row { display: flex; align-items: flex-start; position: relative; }
+.tc-anchor-row { display: flex; align-items: flex-start; position: relative; transition: transform .35s cubic-bezier(.16,1,.3,1); }
 .tc-side-node {
     position: absolute; left: 100%; top: 0;
     display: flex; align-items: flex-start; z-index: 2;
+    transition: left .35s cubic-bezier(.16,1,.3,1), opacity .25s ease;
 }
 .tc-side-node-connector {
     position: absolute; left: -18px; top: 42px;
@@ -95,7 +100,7 @@
 .tc-card {
     border: 1px solid #e9ecef; border-radius: 10px; background: #fff;
     box-shadow: 0 1px 2px rgba(0,0,0,.06); overflow: hidden;
-    transition: box-shadow .15s ease, transform .2s ease;
+    transition: box-shadow .15s ease, transform .35s cubic-bezier(.16,1,.3,1), opacity .3s ease, width .35s cubic-bezier(.16,1,.3,1), height .35s cubic-bezier(.16,1,.3,1), margin .35s cubic-bezier(.16,1,.3,1);
 }
 .tc-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,.1); }
 
@@ -149,6 +154,7 @@
 .tc-side-connector {
     width: 18px; height: 2px; flex-shrink: 0; position: relative;
     border-top: 2px dashed var(--tc-node-color, #6c757d);
+    transition: width .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
 }
 .tc-side-connector::after {
     content: ''; position: absolute; right: -4px; top: -4px;
@@ -158,7 +164,11 @@
 
 /* ===== Collapse ===== */
 .tc-collapse { display: none; }
-.tc-collapse.tc-open { display: block; }
+.tc-collapse.tc-open { display: block; animation: tcCollapseIn .35s cubic-bezier(.16,1,.3,1) both; }
+@keyframes tcCollapseIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ===== Switch (pure CSS checkbox) ===== */
 .tc-switch { position: relative; display: inline-block; width: 30px; height: 17px; cursor: pointer; flex-shrink: 0; }
