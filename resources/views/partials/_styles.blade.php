@@ -119,7 +119,7 @@
     transition: transform .2s ease; flex-shrink: 0; cursor: pointer;
 }
 .tc-caret svg { width: 11px; height: 11px; }
-.tc-node.tc-open .tc-caret { transform: rotate(180deg); }
+.tc-node.tc-open > .tc-anchor .tc-caret { transform: rotate(180deg); }
 
 /* ===== Side panel ===== */
 .tc-side {
