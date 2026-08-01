@@ -263,7 +263,85 @@ window.TreeChart = (function () {
                 b = cardBounds();
                 var padR = Math.max(0, Math.round(b.maxR - treeRect.right));
                 tree.style.paddingRight = padR + 'px';
+
+                TreeChart.updateScrollbar(chart);
             });
+        },
+
+        updateScrollbar: function (root) {
+            var scope = root || document;
+            var charts = (scope.classList && scope.classList.contains('tc-tree-chart'))
+                ? [scope]
+                : scope.querySelectorAll('.tc-tree-chart');
+            charts.forEach(function (chart) {
+                var scroll = chart.querySelector('.tc-tree-scroll');
+                var bar = chart.querySelector('.tc-tree-scrollbar');
+                if (!scroll || !bar) return;
+
+                if (!bar.dataset.tcSbBound) {
+                    bar.dataset.tcSbBound = '1';
+                    bar.addEventListener('pointerdown', function (e) {
+                        TreeChart.scrollbarPointer(e, chart);
+                    });
+                    scroll.addEventListener('scroll', function () {
+                        TreeChart.syncScrollbar(chart);
+                    });
+                }
+
+                TreeChart.syncScrollbar(chart);
+            });
+        },
+
+        syncScrollbar: function (chart) {
+            var scroll = chart.querySelector('.tc-tree-scroll');
+            var bar = chart.querySelector('.tc-tree-scrollbar');
+            var thumb = bar ? bar.querySelector('.tc-tree-scrollbar-thumb') : null;
+            if (!scroll || !bar || !thumb) return;
+
+            var max = scroll.scrollWidth - scroll.clientWidth;
+            if (max <= 0) {
+                bar.classList.add('tc-scrollbar-hidden');
+                return;
+            }
+            bar.classList.remove('tc-scrollbar-hidden');
+
+            var track = bar.clientWidth;
+            var tw = Math.max(40, track * (scroll.clientWidth / scroll.scrollWidth));
+            thumb.style.width = Math.round(tw) + 'px';
+            var pos = max > 0 ? (scroll.scrollLeft / max) * (track - tw) : 0;
+            thumb.style.left = Math.round(pos) + 'px';
+        },
+
+        scrollbarPointer: function (e, chart) {
+            e.preventDefault();
+            var scroll = chart.querySelector('.tc-tree-scroll');
+            var bar = chart.querySelector('.tc-tree-scrollbar');
+            var thumb = bar.querySelector('.tc-tree-scrollbar-thumb');
+            var max = scroll.scrollWidth - scroll.clientWidth;
+            if (max <= 0) return;
+
+            var track = bar.clientWidth;
+            var tw = thumb.offsetWidth;
+            var barLeft = bar.getBoundingClientRect().left;
+
+            if (e.target !== thumb) {
+                var jump = (e.clientX - barLeft - tw / 2) / (track - tw) * max;
+                scroll.scrollLeft = Math.max(0, Math.min(max, jump));
+                return;
+            }
+
+            var startX = e.clientX;
+            var startLeft = scroll.scrollLeft;
+            var move = function (ev) {
+                var ratio = (ev.clientX - startX) / (track - tw);
+                scroll.scrollLeft = Math.max(0, Math.min(max, startLeft + ratio * max));
+            };
+            var up = function () {
+                document.removeEventListener('pointermove', move);
+                document.removeEventListener('pointerup', up);
+            };
+            document.addEventListener('pointermove', move);
+            document.addEventListener('pointerup', up);
         },
 
         updateHlines: function (root) {

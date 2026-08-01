@@ -3,6 +3,8 @@
 @php
     $palette = (array) ($options['colors'] ?? []);
     $connectorClass = ($options['connector'] ?? 'dashed') === 'dashed' ? ' tc-connector-dashed' : '';
+    $scrollable = (bool) ($options['scrollable'] ?? true);
+    $stickySb = $scrollable && (bool) ($options['sticky_scrollbar'] ?? true);
 @endphp
 
 <div class="tc-tree-chart{{ $options['animate'] ? ' tc-animate' : '' }}{{ $connectorClass }}"
@@ -17,7 +19,7 @@
         </div>
     @endif
 
-    @if($options['scrollable'] ?? true)
+    @if($scrollable)
     <div class="tc-tree-scroll">
     @endif
         <div class="tc-tree">
@@ -42,7 +44,13 @@
                 ])
             @endforeach
         </div>
-    @if($options['scrollable'] ?? true)
+    @if($scrollable)
+    </div>
+    @endif
+
+    @if($stickySb)
+    <div class="tc-tree-scrollbar" data-tc-scrollbar>
+        <div class="tc-tree-scrollbar-thumb"></div>
     </div>
     @endif
 

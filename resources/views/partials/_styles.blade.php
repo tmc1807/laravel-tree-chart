@@ -13,11 +13,30 @@
 .tc-tree-chart .tc-subtitle { color: #6c757d; font-size: .8rem; }
 
 /* ===== Scroll container ===== */
-.tc-tree-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom: 14px; }
+.tc-tree-scroll {
+    overflow-x: auto; overflow-y: hidden; padding-bottom: 14px;
+    scrollbar-width: none;
+}
+.tc-tree-scroll::-webkit-scrollbar { display: none; }
 .tc-tree {
     display: flex; flex-direction: column; align-items: center;
     width: max-content; min-width: 100%; margin: 0 auto;
 }
+
+/* ===== Sticky horizontal scrollbar strip ===== */
+.tc-tree-scrollbar {
+    position: sticky; bottom: 10px; left: 0; right: 0;
+    height: 6px; margin-top: 8px; border-radius: 999px;
+    background: rgba(0,0,0,.06); cursor: pointer; z-index: 10;
+}
+.tc-tree-scrollbar.tc-scrollbar-hidden { display: none; }
+.tc-tree-scrollbar-thumb {
+    position: absolute; top: 0; left: 0; height: 100%;
+    min-width: 40px; border-radius: 999px;
+    background: rgba(108,117,125,.45);
+    transition: background .15s ease;
+}
+.tc-tree-scrollbar:hover .tc-tree-scrollbar-thumb { background: rgba(108,117,125,.7); }
 
 /* ===== Row of siblings ===== */
 .tc-tree-children {
