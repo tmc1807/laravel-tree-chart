@@ -134,10 +134,8 @@ window.TreeChart = (function () {
                         }
                     }
 
-                    var cardLeft = requiredRight > cardRight
-                        ? requiredRight + gap + overhang
-                        : cardRight + gap;
-                    var sideLeft = cardLeft - overhang;
+                    var sideLeft = Math.max(cardRight + gap - overhang, requiredRight + gap);
+                    var cardLeft = sideLeft + overhang;
 
                     side.style.left = Math.round(sideLeft - rowRect.left) + 'px';
 
