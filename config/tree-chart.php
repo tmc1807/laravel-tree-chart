@@ -145,20 +145,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Sticky horizontal scrollbar
-    |--------------------------------------------------------------------------
-    |
-    | When true and `scrollable` is also true, a slim scrollbar strip is
-    | pinned to the bottom edge of the viewport (sticky), so the horizontal
-    | scroll indicator stays visible even when the tree is taller than the
-    | screen. The native scrollbar on the tree container is hidden.
-    |
-    */
-
-    'sticky_scrollbar' => true,
-
-    /*
-    |--------------------------------------------------------------------------
     | Demo page
     |--------------------------------------------------------------------------
     |
