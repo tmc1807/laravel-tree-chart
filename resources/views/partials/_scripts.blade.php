@@ -126,13 +126,21 @@ window.TreeChart = (function () {
                     }
                 });
 
+                var gap = 14;
+                var chart = closest(row, '.tc-tree-chart');
+                var gapRef = chart ? chart.querySelector('.tc-tree-children') : null;
+                if (gapRef) {
+                    var g = parseFloat(getComputedStyle(gapRef).gap);
+                    if (g > 0) gap = g;
+                }
+
                 var reserve = 0;
                 sides.forEach(function (side) {
                     var nodeW = side.offsetWidth;
                     var overhang = Math.max(0, (nodeW - cardRect.width) / 2);
                     var cardLeft = reachesDown
-                        ? Math.max(downRight, cardRight) + 24 + overhang
-                        : cardRight + 18;
+                        ? Math.max(downRight, cardRight) + gap + overhang
+                        : cardRight + gap;
                     var sideLeft = cardLeft - overhang;
 
                     side.style.left = Math.round(sideLeft - rowRect.left) + 'px';
@@ -140,7 +148,7 @@ window.TreeChart = (function () {
                     var connector = side.querySelector(':scope > .tc-side-node-connector');
                     if (connector) {
                         connector.style.left = Math.round(cardRight - sideLeft) + 'px';
-                        connector.style.width = Math.max(18, Math.round(cardLeft - cardRight)) + 'px';
+                        connector.style.width = Math.max(gap, Math.round(cardLeft - cardRight)) + 'px';
                         connector.style.top = Math.round(cardMid - rowRect.top - 1) + 'px';
                     }
 
