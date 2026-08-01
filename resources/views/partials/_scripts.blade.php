@@ -281,17 +281,35 @@ window.TreeChart = (function () {
                     tree.style.paddingRight = padR + 'px';
                     void tree.offsetHeight;
                 }
+
+                // Scroll to reveal the rightmost card so side panels
+                // and wide subtrees are never cut off at the viewport edge.
+                var sr = scroll.getBoundingClientRect();
+                var need = Math.ceil(b.maxR - sr.right);
+                if (need > 1) scroll.scrollLeft += need;
             });
         },
 
         revealCollapseCards: function (collapse) {
             if (!collapse) return;
-            var cards = collapse.querySelectorAll(':scope .tc-card');
-            var last = cards.length ? cards[cards.length - 1] : null;
             var scroll = closest(collapse, '.tc-tree-scroll');
-            if (!last || !scroll) return;
-            last.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-            var lr = last.getBoundingClientRect();
+            if (!scroll) return;
+            var chart = closest(collapse, '.tc-tree-chart');
+            if (!chart) return;
+            var cards = chart.querySelectorAll('.tc-card');
+            var rightmost = null;
+            var maxRight = -Infinity;
+            for (var i = 0; i < cards.length; i++) {
+                var r = cards[i].getBoundingClientRect();
+                if (r.width <= 0 || r.height <= 0) continue;
+                if (r.right > maxRight) {
+                    maxRight = r.right;
+                    rightmost = cards[i];
+                }
+            }
+            if (!rightmost) return;
+            rightmost.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            var lr = rightmost.getBoundingClientRect();
             var sr = scroll.getBoundingClientRect();
             var need = Math.ceil(lr.right - sr.right);
             if (need > 1) scroll.scrollLeft += need;
@@ -411,7 +429,27 @@ window.TreeChart = (function () {
                 side.classList.add('show');
                 if (node) node.style.marginRight = width + 'px';
                 stagger(side);
-                setTimeout(function () { TreeChart.updateHlines(); setTimeout(TreeChart.updateHlines, 30); }, 20);
+                setTimeout(function () {
+                    TreeChart.updateHlines();
+                    setTimeout(function () {
+                        TreeChart.updateHlines();
+                        var scroll = chart ? chart.querySelector('.tc-tree-scroll') : null;
+                        if (scroll) {
+                            var cards = chart.querySelectorAll('.tc-card');
+                            var maxRight = -Infinity;
+                            for (var i = 0; i < cards.length; i++) {
+                                var r = cards[i].getBoundingClientRect();
+                                if (r.width <= 0 || r.height <= 0) continue;
+                                if (r.right > maxRight) maxRight = r.right;
+                            }
+                            if (maxRight > -Infinity) {
+                                var sr = scroll.getBoundingClientRect();
+                                var need = Math.ceil(maxRight - sr.right);
+                                if (need > 1) scroll.scrollLeft += need;
+                            }
+                        }
+                    }, 30);
+                }, 20);
             } else {
                 side.querySelectorAll('.tc-card, .tc-side-connector').forEach(function (el, i) {
                     el.classList.add('tc-hiding');
