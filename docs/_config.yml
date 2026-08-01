@@ -1,7 +1,7 @@
 # laravel-tree-chart docs
 title: laravel-tree-chart
 description: Framework-agnostic tree structure chart for Laravel Blade
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
 color_scheme: light
 
 url: https://tmc1807.github.io/laravel-tree-chart
@@ -24,3 +24,6 @@ exclude:
   - .git
   - vendor
   - node_modules
+  - Gemfile
+  - Gemfile.lock
+  - _site

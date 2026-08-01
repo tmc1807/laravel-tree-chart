@@ -33,17 +33,20 @@ composer pint
 ## Documentation site
 
 The GitHub Pages documentation lives in [`docs/`](https://github.com/tmc1807/laravel-tree-chart/tree/main/docs)
-and is built with Jekyll using the `just-the-docs` theme. To preview locally:
+and is built automatically by GitHub Pages (branch `main`, folder `/docs`)
+using the `just-the-docs` remote theme. To preview locally:
 
 ```bash
-gem install bundler jekyll
+gem install bundler
 cd docs
-bundle init
-bundle add jekyll just-the-docs
+bundle install
 bundle exec jekyll serve
 ```
 
 Then open <http://localhost:4000>.
+
+> The GitHub Pages builder resolves `remote_theme: just-the-docs` on its own;
+> the `Gemfile` (github-pages gem) is only for local preview.
 
 ## Feature checklist for a PR
 
