@@ -102,30 +102,6 @@ window.TreeChart = (function () {
                 var cardRight = rowRect.left + rowRect.width;
                 var cardMid = cardRect.top + cardRect.height / 2;
 
-                var downRight = 0, downTop = 0, hasDown = false;
-                if (children) {
-                    var r = children.getBoundingClientRect();
-                    if (r.width > 0) {
-                        hasDown = true;
-                        downRight = r.right;
-                        var downCards = children.querySelectorAll(':scope > .tc-node .tc-card');
-                        var i2;
-                        for (i2 = 0; i2 < downCards.length; i2++) {
-                            var card = downCards[i2].getBoundingClientRect();
-                            if (card.width <= 0 || card.height <= 0) continue;
-                            var cardTop = card.top;
-                            if (!downTop || cardTop < downTop) downTop = cardTop;
-                        }
-                    }
-                }
-
-                var reachesDown = false;
-                sides.forEach(function (side) {
-                    if (hasDown && downTop > 0 && rowRect.top + side.offsetHeight > downTop - 1) {
-                        reachesDown = true;
-                    }
-                });
-
                 var gap = 14;
                 var chart = closest(row, '.tc-tree-chart');
                 var gapRef = chart ? chart.querySelector('.tc-tree-children') : null;
@@ -138,8 +114,24 @@ window.TreeChart = (function () {
                 sides.forEach(function (side) {
                     var nodeW = side.offsetWidth;
                     var overhang = Math.max(0, (nodeW - cardRect.width) / 2);
-                    var cardLeft = reachesDown
-                        ? Math.max(downRight, cardRight) + gap + overhang
+
+                    var sideTop = rowRect.top;
+                    var sideBottom = rowRect.top + side.offsetHeight;
+
+                    var requiredRight = cardRight;
+                    if (children) {
+                        var downCards = children.querySelectorAll('.tc-card');
+                        var i2;
+                        for (i2 = 0; i2 < downCards.length; i2++) {
+                            var d = downCards[i2].getBoundingClientRect();
+                            if (d.width <= 0 || d.height <= 0) continue;
+                            if (d.bottom <= sideTop + 1 || d.top >= sideBottom - 1) continue;
+                            if (d.right > requiredRight) requiredRight = d.right;
+                        }
+                    }
+
+                    var cardLeft = requiredRight > cardRight
+                        ? requiredRight + gap + overhang
                         : cardRight + gap;
                     var sideLeft = cardLeft - overhang;
 
