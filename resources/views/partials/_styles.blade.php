@@ -98,7 +98,12 @@
     padding: .5rem; display: flex; align-items: flex-start;
     justify-content: space-between; gap: .5rem; cursor: pointer;
 }
-.tc-body-text { min-width: 0; }
+.tc-body-text { min-width: 0; flex: 1; }
+.tc-photo {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+    overflow: hidden; background: #e9ecef; border: 2px solid var(--tc-node-color, #6c757d);
+}
+.tc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tc-title { font-size: .68rem; line-height: 1.3; font-weight: 600; color: #212529; display: block; }
 .tc-sub { font-size: .62rem; color: #6c757d; display: block; margin-top: 2px; }
 .tc-badge {

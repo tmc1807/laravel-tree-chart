@@ -37,6 +37,7 @@
                 'header' => 'Visi',
                 'label' => 'Terwujudnya Kesejahteraan Masyarakat yang Adil dan Sejahtera',
                 'color' => '#4e73df',
+                'photo' => 'https://i.pravatar.cc/80?img=12',
                 'children' => [
                     [
                         'id' => 'm-1',
@@ -45,6 +46,7 @@
                         'badge' => '2 Tujuan',
                         'badge_color' => '#1cc88a',
                         'hideable' => true,
+                        'photo' => 'https://i.pravatar.cc/80?img=5',
                         'children' => [
                             [
                                 'id' => 't-1-1',
@@ -137,6 +139,7 @@
                         'badge' => '1 Tujuan',
                         'badge_color' => '#1cc88a',
                         'hideable' => true,
+                        'photo' => 'https://i.pravatar.cc/80?img=32',
                         'children' => [
                             [
                                 'id' => 't-2-1',

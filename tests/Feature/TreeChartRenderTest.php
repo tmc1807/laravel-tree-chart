@@ -106,3 +106,45 @@ it('uses configured colors per level when node color is absent', function () {
         ->toContain('--tc-node-color:#222222')
         ->toContain('--tc-children-color:#111111');
 });
+
+it('renders the node photo when provided', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'photo' => 'https://example.test/avatar.jpg',
+        ]],
+        'options' => [],
+    ])->render();
+
+    expect($html)
+        ->toContain('tc-photo')
+        ->toContain('src="https://example.test/avatar.jpg"');
+});
+
+it('falls back to the configured placeholder when node has no photo', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+        ]],
+        'options' => ['photo_placeholder' => 'https://example.test/placeholder.png'],
+    ])->render();
+
+    expect($html)
+        ->toContain('tc-photo')
+        ->toContain('src="https://example.test/placeholder.png"');
+});
+
+it('hides the photo area when node has no photo and no placeholder is set', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+        ]],
+        'options' => ['photo_placeholder' => null],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('class="tc-photo"');
+});

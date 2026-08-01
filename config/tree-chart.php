@@ -24,6 +24,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Placeholder photo (shown when a node has no `photo`)
+    |--------------------------------------------------------------------------
+    |
+    | URL or data-URI used as the fallback image for nodes without a photo.
+    | Set to null to hide the photo area entirely when a node has no photo.
+    |
+    */
+
+    'photo_placeholder' => 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%23e9ecef%22/%3E%3Ccircle cx=%2240%22 cy=%2232%22 r=%2214%22 fill=%22%23adb5bd%22/%3E%3Cpath d=%22M14 74c0-14 12-22 26-22s26 8 26 22z%22 fill=%22%23adb5bd%22/%3E%3C/svg%3E',
+
+    /*
+    |--------------------------------------------------------------------------
     | Default side panel width (px)
     |--------------------------------------------------------------------------
     |

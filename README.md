@@ -107,6 +107,7 @@ $nodes = [
 | `sub_label` | string | Secondary muted text in the card body. |
 | `badge` | string | Small pill shown in the body (e.g. `3 Tujuan`). |
 | `badge_color` | string | Pill color; defaults to the node color. |
+| `photo` | string | Optional image URL rendered as a circular avatar. If empty, the `photo_placeholder` option is shown instead. |
 | `color` | string | Hex color for card border, header, and lines. Falls back to the level palette. |
 | `width` | int | Card width in px; defaults to `card_width` option. |
 | `children` | array | Nested nodes. |
@@ -128,6 +129,7 @@ $nodes = [
     Node::make('visi', 'Terwujudnya Masyarakat Sejahtera')
         ->header('Visi')
         ->color('#4e73df')
+        ->photo('https://example.test/foto/visi.jpg')
         ->child(
             Node::make('m-1', 'Meningkatkan kualitas SDM')
                 ->header('Misi 1')
@@ -147,6 +149,7 @@ $options = [
     'subtitle'    => 'Akhir periode',
     'colors'      => ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1'], // per level (depth 0 = root)
     'card_width'  => 260,
+    'photo_placeholder' => 'data:image/svg+xml,...', // fallback when a node has no photo; null hides the avatar
     'side_width'  => 500,
     'animate'     => true,
     'connector'   => 'dashed', // 'dashed' | 'solid'

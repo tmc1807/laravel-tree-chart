@@ -3,6 +3,8 @@
     $badgeColor = $node['badge_color'] ?: $color;
     $hideLabel = $node['header'] !== '' ? $node['header'] : ($node['label'] !== '' ? $node['label'] : $node['id']);
     $sideVisible = $node['has_side'] && (bool) $node['side_visible'];
+    $photoSrc = $node['has_photo'] ? $node['photo'] : ($options['photo_placeholder'] ?? null);
+    $photoAlt = $node['label'] !== '' ? $node['label'] : $node['header'];
 @endphp
 
 <div class="tc-node"
@@ -25,6 +27,11 @@
                 </div>
             @endif
             <div class="tc-body">
+                @if($photoSrc)
+                    <div class="tc-photo">
+                        <img src="{{ $photoSrc }}" alt="{{ $photoAlt }}" loading="lazy">
+                    </div>
+                @endif
                 <div class="tc-body-text">
                     @if($node['label'] !== '')
                         <span class="tc-title">{{ $node['label'] }}</span>

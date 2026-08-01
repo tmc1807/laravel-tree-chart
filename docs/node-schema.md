@@ -18,6 +18,7 @@ automatically). Only `id` and `label` are required.
 | `sub_label` | string | Secondary muted text below the label. |
 | `badge` | string | Small pill in the body (e.g. `3 Tujuan`). |
 | `badge_color` | string | Pill color. Defaults to the node color. |
+| `photo` | string | Optional image URL shown as a circular avatar. When omitted (or empty) the card shows the `photo_placeholder` image instead. |
 | `color` | string | Hex color for card border, header background and connector lines. Falls back to the per-level palette. |
 | `width` | int | Card width in px. Defaults to the `card_width` option. |
 | `children` | array | Nested child nodes (recursive). |
@@ -39,6 +40,7 @@ $nodes = [
         'sub_label'   => 'Periode 2025 - 2030',
         'badge'       => '3 anak',
         'badge_color' => '#1cc88a',
+        'photo'       => 'https://example.test/foto/kepala-daerah.jpg',
         'color'       => '#4e73df',
         'width'       => 320,
         'collapsed'   => false,
@@ -70,6 +72,21 @@ The `side` field is rendered with `{!! !!}`, so you can pass any renderable:
 The panel appears to the right of the card, connected by a dashed line. If the
 `side_toggle` option is enabled, a switch in the card header shows/hides it.
 
+## Photos
+
+`photo` is optional. The card renders a circular avatar using the URL; when the
+field is missing/empty the configured `photo_placeholder` (see [Options](options.md))
+is shown instead. Set `photo_placeholder` to `null` to hide the avatar area
+entirely for nodes without a photo.
+
+```php
+[
+    'id'    => 'kepala-daerah',
+    'label' => 'Kepala Daerah',
+    'photo' => 'https://example.test/foto/kepala-daerah.jpg', // tanpa foto → placeholder
+]
+```
+
 ## Builder helper
 
 Prefer a fluent API? Use the `Node` builder instead of arrays:
@@ -92,5 +109,5 @@ $nodes = [
 ```
 
 Available methods: `id()`, `header()`, `label()`, `subLabel()`, `badge()`,
-`color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
+`photo()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
 `children()`, `child()`, `side()`, `extra()`.

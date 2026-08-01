@@ -31,6 +31,8 @@ class Node
 
     public ?string $badgeColor = null;
 
+    public ?string $photo = null;
+
     public ?string $color = null;
 
     public ?int $width = null;
@@ -91,6 +93,13 @@ class Node
     {
         $this->badge = $badge;
         $this->badgeColor = $color;
+
+        return $this;
+    }
+
+    public function photo(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
@@ -176,6 +185,7 @@ class Node
             'sub_label' => $this->subLabel,
             'badge' => $this->badge,
             'badge_color' => $this->badgeColor,
+            'photo' => $this->photo,
             'color' => $this->color,
             'width' => $this->width,
             'collapsed' => $this->collapsed,

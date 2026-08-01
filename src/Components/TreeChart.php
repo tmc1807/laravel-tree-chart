@@ -62,6 +62,7 @@ class TreeChart extends Component
             'sub_label' => (string) ($node['sub_label'] ?? ''),
             'badge' => $node['badge'] ?? null,
             'badge_color' => $node['badge_color'] ?? null,
+            'photo' => $node['photo'] ?? null,
             'color' => $node['color'] ?? null,
             'width' => $node['width'] ?? null,
             'collapsed' => (bool) ($node['collapsed'] ?? false),
@@ -75,6 +76,7 @@ class TreeChart extends Component
             'depth' => $depth,
             'has_children' => count($children) > 0,
             'has_side' => ! empty($node['side'] ?? null),
+            'has_photo' => ! empty($node['photo'] ?? null),
         ];
 
         foreach ($node as $key => $value) {
@@ -104,6 +106,19 @@ class TreeChart extends Component
     public function widthFor(array $node): int
     {
         return (int) ($node['width'] ?? $this->options['card_width'] ?? 260);
+    }
+
+    /**
+     * Resolve the image source for a node: node photo, or the configured
+     * placeholder when the node has no photo. Null disables the photo area.
+     */
+    public function photoFor(array $node): ?string
+    {
+        if (! empty($node['photo'])) {
+            return $node['photo'];
+        }
+
+        return $this->options['photo_placeholder'] ?? null;
     }
 
     public function render()
