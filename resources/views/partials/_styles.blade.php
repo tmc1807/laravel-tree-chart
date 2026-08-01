@@ -198,7 +198,8 @@
     to   { opacity: 0; }
 }
 .tc-tree-chart.tc-animate .tc-card {
-    animation: none;
+    animation: tcCardIn .4s ease both;
+    animation-delay: var(--tc-delay, 0s);
 }
 .tc-tree-chart.tc-animate .tc-up,
 .tc-tree-chart.tc-animate .tc-hline {
