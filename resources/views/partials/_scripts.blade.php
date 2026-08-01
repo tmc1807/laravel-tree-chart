@@ -324,16 +324,23 @@ window.TreeChart = (function () {
         settleAnimations: function (root) {
             var chart = (root && root.classList && root.classList.contains('tc-tree-chart'))
                 ? root : closest(root, '.tc-tree-chart');
-            if (!chart || !chart.getAnimations || !chart.querySelectorAll) return;
+            if (!chart || !chart.querySelectorAll) return;
             chart.querySelectorAll('.tc-card, .tc-up, .tc-hline').forEach(function (el) {
                 if (el.classList.contains('tc-hiding')) return;
-                var anims = el.getAnimations();
-                for (var i = 0; i < anims.length; i++) {
-                    var a = anims[i];
-                    if (a.playState !== 'running' && a.playState !== 'paused') continue;
-                    if (a.animationName === 'tcCardIn' || a.animationName === 'tcLineIn') {
-                        try { a.finish(); } catch (e) {}
+                if (parseFloat(getComputedStyle(el).opacity) >= 0.99) return;
+                if (el.getAnimations) {
+                    var anims = el.getAnimations();
+                    for (var i = 0; i < anims.length; i++) {
+                        var a = anims[i];
+                        if (a.animationName !== 'tcCardIn' && a.animationName !== 'tcLineIn') continue;
+                        if (a.playState === 'running' || a.playState === 'paused') {
+                            try { a.finish(); } catch (e) {}
+                        }
                     }
+                }
+                if (parseFloat(getComputedStyle(el).opacity) < 0.99) {
+                    el.style.animation = 'none';
+                    el.style.removeProperty('--tc-delay');
                 }
             });
         },
