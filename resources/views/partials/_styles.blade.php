@@ -186,7 +186,7 @@
 
 /* ===== Animations (staggered) ===== */
 @keyframes tcCardIn {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 1; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes tcLineIn {
