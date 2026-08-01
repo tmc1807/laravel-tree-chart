@@ -43,6 +43,9 @@ window.TreeChart = (function () {
     }
 
     return {
+        /** Re-trigger the entrance stagger animation inside the given root. */
+        stagger: stagger,
+
         /** (Re)initialize every chart inside the given root. Idempotent. */
         init: function (root) {
             var scope = root || document;
@@ -157,8 +160,67 @@ window.TreeChart = (function () {
             });
         },
 
+        layoutDownNodes: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
+                var nodes = Array.from(container.children).filter(function (el) {
+                    return el.classList.contains('tc-node') && el.style.display !== 'none';
+                });
+                if (nodes.length < 2) return;
+
+                function ownCard(n) {
+                    var c = n.querySelector(':scope > .tc-anchor-row > .tc-anchor > .tc-card');
+                    return c ? c.getBoundingClientRect() : null;
+                }
+
+                function childRect(n) {
+                    var cards = n.querySelectorAll(':scope > .tc-collapse .tc-card');
+                    var r = null;
+                    for (var k = 0; k < cards.length; k++) {
+                        var b = cards[k].getBoundingClientRect();
+                        if (b.width <= 0 || b.height <= 0) continue;
+                        if (!r) { r = { l: b.left, t: b.top, r: b.right, b: b.bottom }; continue; }
+                        r.l = Math.min(r.l, b.left); r.t = Math.min(r.t, b.top);
+                        r.r = Math.max(r.r, b.right); r.b = Math.max(r.b, b.bottom);
+                    }
+                    return r;
+                }
+
+                function overlap(a, b) {
+                    return a && b && a.r > b.l + 4 && b.r > a.l + 4 && a.b > b.t + 4 && b.b > a.t + 4;
+                }
+
+                function pin() {
+                    nodes.forEach(function (n) {
+                        var c = ownCard(n);
+                        var w = c ? Math.round(c.width) : 0;
+                        n.style.width = w > 0 ? w + 'px' : '';
+                    });
+                }
+
+                var i, j, guard = 0, changed = true;
+                pin();
+                while (changed && guard++ < 24) {
+                    changed = false;
+                    for (i = 0; i < nodes.length; i++) {
+                        var ci = childRect(nodes[i]);
+                        var oi = ownCard(nodes[i]);
+                        for (j = i + 1; j < nodes.length; j++) {
+                            var cj = childRect(nodes[j]);
+                            var oj = ownCard(nodes[j]);
+                            if (overlap(ci, oj) || overlap(oi, cj) || overlap(ci, cj)) {
+                                if (nodes[i].style.width) { nodes[i].style.width = ''; changed = true; }
+                                if (nodes[j].style.width) { nodes[j].style.width = ''; changed = true; }
+                            }
+                        }
+                    }
+                }
+            });
+        },
+
         updateHlines: function (root) {
             var scope = root || document;
+            TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
                 var hline = container.querySelector(':scope > .tc-hline');
@@ -297,7 +359,7 @@ window.TreeChart = (function () {
     if (window.__tcInstalled) return;
     window.__tcInstalled = true;
 
-    function boot() { TreeChart.init(document); stagger(document); }
+    function boot() { TreeChart.init(document); TreeChart.stagger(document); }
 
     document.addEventListener('DOMContentLoaded', boot);
 
