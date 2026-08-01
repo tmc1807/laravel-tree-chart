@@ -1,10 +1,26 @@
 # laravel-tree-chart
 
+[![PHP](https://img.shields.io/badge/PHP-8.2+-8892BF?logo=php&logoColor=fff)](https://www.php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-11%20%7C%2012-red?logo=laravel&logoColor=fff)](https://laravel.com)
+[![Tests](https://github.com/tmc1807/laravel-tree-chart/actions/workflows/tests.yml/badge.svg)](https://github.com/tmc1807/laravel-tree-chart/actions)
+[![Docs](https://img.shields.io/badge/docs-github%20pages-4B7BEC?logo=github)](https://tmc1807.github.io/laravel-tree-chart)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Framework-agnostic tree structure chart for Laravel Blade.
 
 A single, self-contained Blade component that renders any nested tree as an interactive diagram — with colored cards per level, animated connector lines, collapsible nodes, side panels, and the ability to hide nodes. No Bootstrap, no Livewire, no external JS/CSS: all styles and scripts are injected inline, only once per page.
 
 > Originally extracted from an RPJMD *pohon kinerja* (performance tree) module — suitable for org charts, goal cascades, family trees, sitemaps, and more.
+
+## Documentation
+
+Full documentation is available at **<https://tmc1807.github.io/laravel-tree-chart>**:
+
+- [Getting started](https://tmc1807.github.io/laravel-tree-chart/getting-started.html)
+- [Node schema](https://tmc1807.github.io/laravel-tree-chart/node-schema.html)
+- [Options](https://tmc1807.github.io/laravel-tree-chart/options.html)
+- [Advanced](https://tmc1807.github.io/laravel-tree-chart/advanced.html)
+- [Contributing](https://tmc1807.github.io/laravel-tree-chart/contributing.html)
 
 ## Features
 

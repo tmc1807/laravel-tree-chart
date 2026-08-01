@@ -5,3 +5,7 @@ composer.lock
 .php-cs-fixer.cache
 node_modules/
 .DS_Store
+
+# Jekyll docs build artifacts
+docs/_site/
+docs/.jekyll-cache/

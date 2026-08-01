@@ -1,0 +1,26 @@
+# laravel-tree-chart docs
+title: laravel-tree-chart
+description: Framework-agnostic tree structure chart for Laravel Blade
+theme: just-the-docs
+color_scheme: light
+
+url: https://tmc1807.github.io/laravel-tree-chart
+
+# just-the-docs configuration
+aux_links:
+  "laravel-tree-chart on GitHub":
+    - "https://github.com/tmc1807/laravel-tree-chart"
+aux_links_new_tab: true
+search_enabled: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+# Exclude build artifacts from the Jekyll build.
+exclude:
+  - .git
+  - vendor
+  - node_modules
