@@ -186,30 +186,32 @@
 
 /* ===== Animations (staggered) ===== */
 @keyframes tcCardIn {
-    from { opacity: 1; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes tcLineIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity: 0; transform: scaleY(0.3); }
+    to   { opacity: 1; transform: scaleY(1); }
 }
 @keyframes tcFadeOut {
-    from { opacity: 1; }
-    to   { opacity: 0; }
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.96); }
 }
 .tc-tree-chart.tc-animate .tc-card {
-    animation: tcCardIn .4s ease both;
+    animation: tcCardIn .5s cubic-bezier(.16,1,.3,1) both;
     animation-delay: var(--tc-delay, 0s);
 }
 .tc-tree-chart.tc-animate .tc-up,
 .tc-tree-chart.tc-animate .tc-hline {
-    animation: tcLineIn .4s ease both;
+    animation: tcLineIn .5s cubic-bezier(.16,1,.3,1) both;
     animation-delay: var(--tc-delay, 0s);
+    transform-origin: top center;
 }
 .tc-tree-chart.tc-animate .tc-tree-children::before,
 .tc-tree-chart.tc-animate .tc-tree-children::after {
-    animation: tcLineIn .4s ease both;
+    animation: tcLineIn .5s cubic-bezier(.16,1,.3,1) both;
     animation-delay: var(--tc-delay, 0s);
+    transform-origin: top center;
 }
 .tc-tree-chart.tc-animate .tc-card.tc-hiding,
 .tc-tree-chart.tc-animate .tc-up.tc-hiding,
@@ -217,7 +219,7 @@
 .tc-tree-chart.tc-animate .tc-tree-children.tc-hiding::before,
 .tc-tree-chart.tc-animate .tc-tree-children.tc-hiding::after,
 .tc-tree-chart.tc-animate .tc-side-connector.tc-hiding {
-    animation: tcFadeOut .3s ease both;
+    animation: tcFadeOut .25s cubic-bezier(.4,0,1,1) both;
 }
 </style>
 @endonce
