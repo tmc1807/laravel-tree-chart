@@ -3,7 +3,10 @@
     $badgeColor = $node['badge_color'] ?: $color;
     $hideLabel = $node['header'] !== '' ? $node['header'] : ($node['label'] !== '' ? $node['label'] : $node['id']);
     $sideVisible = $node['has_side'] && (bool) $node['side_visible'];
-    $photoSrc = $node['has_photo'] ? $node['photo'] : ($options['photo_placeholder'] ?? null);
+    $photoEnabled = (bool) ($options['photo'] ?? true);
+    $photoSrc = $photoEnabled
+        ? ($node['has_photo'] ? $node['photo'] : ($options['photo_placeholder'] ?? null))
+        : null;
     $photoAlt = $node['label'] !== '' ? $node['label'] : $node['header'];
 @endphp
 

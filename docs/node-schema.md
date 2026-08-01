@@ -77,7 +77,8 @@ The panel appears to the right of the card, connected by a dashed line. If the
 `photo` is optional. The card renders a circular avatar using the URL; when the
 field is missing/empty the configured `photo_placeholder` (see [Options](options.md))
 is shown instead. Set `photo_placeholder` to `null` to hide the avatar area
-entirely for nodes without a photo.
+entirely for nodes without a photo. The whole feature can be turned off with the
+`photo` option (`false` hides the avatar even when a node provides a photo).
 
 ```php
 [

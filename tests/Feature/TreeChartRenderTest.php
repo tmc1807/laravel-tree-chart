@@ -136,6 +136,35 @@ it('falls back to the configured placeholder when node has no photo', function (
         ->toContain('src="https://example.test/placeholder.png"');
 });
 
+it('hides the photo area when the photo feature is disabled, even with data', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'photo' => 'https://example.test/avatar.jpg',
+        ]],
+        'options' => ['photo' => false],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('class="tc-photo"')
+        ->not->toContain('src="https://example.test/avatar.jpg"');
+});
+
+it('renders a photo area when enabled, with or without data', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+        ]],
+        'options' => ['photo' => true, 'photo_placeholder' => 'https://example.test/placeholder.png'],
+    ])->render();
+
+    expect($html)
+        ->toContain('class="tc-photo"')
+        ->toContain('src="https://example.test/placeholder.png"');
+});
+
 it('hides the photo area when node has no photo and no placeholder is set', function () {
     $html = view('tree', [
         'nodes' => [[

@@ -149,6 +149,7 @@ $options = [
     'subtitle'    => 'Akhir periode',
     'colors'      => ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1'], // per level (depth 0 = root)
     'card_width'  => 260,
+    'photo'       => true, // master switch: false hides the avatar even when a node provides a photo
     'photo_placeholder' => 'data:image/svg+xml,...', // fallback when a node has no photo; null hides the avatar
     'side_width'  => 500,
     'animate'     => true,

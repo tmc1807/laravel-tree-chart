@@ -27,6 +27,7 @@ Per-component options always win.
 | `subtitle` | string \| null | `null` | Muted subtitle below the title. |
 | `colors` | array | `['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1']` | Palette applied per depth level (index 0 = root). A node's own `color` overrides it. |
 | `card_width` | int | `260` | Default card width in px. |
+| `photo` | bool | `true` | Master switch for the avatar. `true` always renders it (node `photo` or the placeholder); `false` never renders it, even when a node provides a photo. |
 | `photo_placeholder` | string \| null | *inline SVG data-URI* | Fallback image shown when a node has no `photo`. Set to `null` to hide the avatar area entirely for photo-less nodes. |
 | `side_width` | int | `500` | Default side-panel width in px. |
 | `animate` | bool | `true` | Staggered enter/exit animations for cards and connector lines. |
@@ -58,6 +59,7 @@ The published config:
 return [
     'colors'      => ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1'],
     'card_width'  => 260,
+    'photo'       => true,
     'photo_placeholder' => 'data:image/svg+xml,...',
     'side_width'  => 500,
     'animate'     => true,

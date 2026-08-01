@@ -24,6 +24,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Photo feature toggle
+    |--------------------------------------------------------------------------
+    |
+    | Master switch for the node photo/avatar.
+    | - true  : always render the avatar — the node `photo` when present,
+    |           otherwise the `photo_placeholder` image.
+    | - false : never render the avatar, even when a node provides `photo`.
+    |
+    */
+
+    'photo' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Placeholder photo (shown when a node has no `photo`)
     |--------------------------------------------------------------------------
     |
