@@ -141,6 +141,9 @@
     width: 18px; height: 2px;
     border-top: 2px dashed var(--tc-connector-color, #6c757d);
 }
+.tc-tree-chart:not(.tc-connector-dashed) .tc-side-node-connector {
+    border-top-style: solid;
+}
 .tc-side-node-connector::after {
     content: ''; position: absolute; right: -4px; top: -4px;
     width: 8px; height: 8px; border-radius: 50%;
@@ -202,6 +205,9 @@
     width: 18px; height: 2px; flex-shrink: 0; position: relative;
     border-top: 2px dashed var(--tc-node-color, #6c757d);
     transition: width .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+}
+.tc-tree-chart:not(.tc-connector-dashed) .tc-side-connector {
+    border-top-style: solid;
 }
 .tc-side-connector::after {
     content: ''; position: absolute; right: -4px; top: -4px;

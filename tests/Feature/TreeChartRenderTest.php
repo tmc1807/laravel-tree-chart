@@ -232,6 +232,27 @@ it('omits the sticky scrollbar when disabled', function () {
     expect($html)->not->toContain('class="tc-scrollbar" data-tc-scrollbar');
 });
 
+it('tags the wrapper as dashed when connector is dashed', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['connector' => 'dashed'],
+    ])->render();
+
+    expect($html)->toContain('tc-tree-chart tc-animate tc-connector-dashed');
+});
+
+it('keeps side connectors dashed in dashed mode and solid in solid mode', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['connector' => 'solid'],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('tc-tree-chart tc-animate tc-connector-dashed')
+        ->toContain('.tc-tree-chart:not(.tc-connector-dashed) .tc-side-node-connector {')
+        ->toContain('.tc-tree-chart:not(.tc-connector-dashed) .tc-side-connector {');
+});
+
 it('uses configured colors per level when node color is absent', function () {
     $html = view('tree', [
         'nodes' => [[
