@@ -82,8 +82,61 @@ window.TreeChart = (function () {
             });
         },
 
+        layoutSideNodes: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-anchor-row').forEach(function (row) {
+                var sides = [];
+                var i;
+                for (i = 0; i < row.children.length; i++) {
+                    if (row.children[i].classList.contains('tc-side-node')) sides.push(row.children[i]);
+                }
+                if (!sides.length) return;
+
+                var node = closest(row, '.tc-node');
+                var collapse = node ? node.querySelector(':scope > .tc-collapse') : null;
+                var children = (collapse && collapse.classList.contains('tc-open'))
+                    ? collapse.querySelector(':scope > .tc-tree-children') : null;
+
+                var rowRect = row.getBoundingClientRect();
+                var cardRight = rowRect.left + rowRect.width;
+
+                var downRight = 0, downTop = 0, hasDown = false;
+                if (children) {
+                    var r = children.getBoundingClientRect();
+                    if (r.width > 0) { hasDown = true; downRight = r.right; downTop = r.top; }
+                }
+
+                var reachesDown = false;
+                sides.forEach(function (side) {
+                    if (hasDown && rowRect.top + side.offsetHeight > downTop - 1) reachesDown = true;
+                });
+
+                var cursor = reachesDown
+                    ? Math.max(downRight, cardRight) + 24
+                    : cardRight + 18;
+
+                sides.forEach(function (side) {
+                    var connector = side.querySelector(':scope > .tc-side-node-connector');
+                    var connW = Math.max(0, cursor - cardRight);
+                    if (connector) connector.style.width = connW + 'px';
+                    side.style.left = '100%';
+                    cursor = cursor + side.offsetWidth + 16;
+                });
+
+                if (node) {
+                    var reserve = cursor - cardRight - 16;
+                    if (reserve > 0) {
+                        node.style.marginRight = Math.round(reserve) + 'px';
+                    } else {
+                        node.style.marginRight = '';
+                    }
+                }
+            });
+        },
+
         updateHlines: function (root) {
             var scope = root || document;
+            TreeChart.layoutSideNodes(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
                 var hline = container.querySelector(':scope > .tc-hline');
                 if (!hline) return;
