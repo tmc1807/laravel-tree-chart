@@ -37,7 +37,7 @@ Full documentation is available at **<https://tmc1807.github.io/laravel-tree-cha
 ## Installation
 
 ```bash
-composer require tmc/laravel-tree-chart
+composer require tmc1807/laravel-tree-chart
 ```
 
 For local development via a path repository:

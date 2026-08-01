@@ -1,5 +1,5 @@
 {
-    "name": "tmc/laravel-tree-chart",
+    "name": "tmc1807/laravel-tree-chart",
     "description": "Framework-agnostic tree structure chart for Laravel Blade. Pure Blade component, inline CSS/JS, no Bootstrap or Livewire required.",
     "keywords": [
         "laravel",

@@ -15,7 +15,7 @@ nav_order: 2
 ## Installation
 
 ```bash
-composer require tmc/laravel-tree-chart
+composer require tmc1807/laravel-tree-chart
 ```
 
 Laravel auto-discovers the service provider. If your app has package discovery
@@ -38,7 +38,7 @@ To develop or test against a local checkout of the package:
 ```
 
 ```bash
-composer require tmc/laravel-tree-chart:@dev
+composer require tmc1807/laravel-tree-chart:@dev
 ```
 
 ## Your first tree
