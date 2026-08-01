@@ -13,10 +13,38 @@
 .tc-tree-chart .tc-subtitle { color: #6c757d; font-size: .8rem; }
 
 /* ===== Scroll container ===== */
-.tc-tree-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom: 14px; }
+.tc-tree-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    contain: layout;
+    min-height: 240px;
+    padding-bottom: 80px;
+    margin-bottom: 80px;
+}
 .tc-tree {
     display: flex; flex-direction: column; align-items: center;
-    width: max-content; min-width: 100%; margin: 0 auto;
+    width: max-content;
+    min-width: 100%;
+    margin: 0 auto;
+    margin-bottom: 0;
+    padding-right: 80px;
+}
+
+/* Ensure scrollbar extends to viewport edge */
+.tc-tree-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+.tc-tree-scroll::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 4px;
+}
+.tc-tree-scroll::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 /* ===== Row of siblings ===== */
