@@ -284,6 +284,19 @@ window.TreeChart = (function () {
             });
         },
 
+        revealCollapseCards: function (collapse) {
+            if (!collapse) return;
+            var cards = collapse.querySelectorAll(':scope .tc-card');
+            var last = cards.length ? cards[cards.length - 1] : null;
+            var scroll = closest(collapse, '.tc-tree-scroll');
+            if (!last || !scroll) return;
+            last.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            var lr = last.getBoundingClientRect();
+            var sr = scroll.getBoundingClientRect();
+            var need = Math.ceil(lr.right - sr.right);
+            if (need > 1) scroll.scrollLeft += need;
+        },
+
         updateHlines: function (root) {
             var scope = root || document;
             TreeChart.layoutDownNodes(scope);
@@ -379,11 +392,8 @@ window.TreeChart = (function () {
                     TreeChart.updateHlines();
                     setTimeout(function () {
                         TreeChart.updateHlines();
-                        var cards = collapse.querySelectorAll(':scope .tc-card');
-                        var last = cards.length ? cards[cards.length - 1] : null;
-                        if (last && last.scrollIntoView) {
-                            last.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-                        }
+                        TreeChart.revealCollapseCards(collapse);
+                        setTimeout(function () { TreeChart.revealCollapseCards(collapse); }, 200);
                     }, 30);
                 }, 30);
             }
