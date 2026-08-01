@@ -281,7 +281,7 @@
 .tc-tree-chart.tc-animate .tc-tree-children.tc-hiding::before,
 .tc-tree-chart.tc-animate .tc-tree-children.tc-hiding::after,
 .tc-tree-chart.tc-animate .tc-side-connector.tc-hiding {
-    animation: tcFadeOut .25s cubic-bezier(.4,0,1,1) both;
+    animation: tcFadeOut .4s cubic-bezier(.4,0,.2,1) both;
 }
 </style>
 @endonce

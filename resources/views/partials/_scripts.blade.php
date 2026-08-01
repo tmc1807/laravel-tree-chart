@@ -2,7 +2,7 @@
 <script>
 window.TreeChart = (function () {
     var SIDE_HIDING = 320;
-    var COLLAPSE_HIDING = 520;
+    var COLLAPSE_HIDING = 700;
     var HIDE_NODE_HIDING = 480;
 
     function closest(el, sel) { return el.closest ? el.closest(sel) : null; }
@@ -46,16 +46,18 @@ window.TreeChart = (function () {
         if (!collapse) return done();
         var children = collapse.querySelector('.tc-tree-children');
         var cards = collapse.querySelectorAll('.tc-card, .tc-up, .tc-hline, .tc-tree-children');
-        cards.forEach(function (el, i) {
+        cards.forEach(function (el) {
+            // Clear any inline `animation` override so the CSS fade-out always runs.
+            el.style.animation = '';
+            el.style.removeProperty('--tc-delay');
             el.classList.add('tc-hiding');
-            el.style.setProperty('--tc-delay', Math.min(i * 30, 360) + 'ms');
         });
         // Animate collapse container height for smooth closing
         if (children) {
             var h = children.offsetHeight;
             children.style.height = h + 'px';
             children.style.overflow = 'hidden';
-            children.style.transition = 'height 350ms cubic-bezier(.4,0,.2,1), opacity 250ms cubic-bezier(.4,0,.2,1)';
+            children.style.transition = 'height 400ms cubic-bezier(.4,0,.2,1), opacity 320ms cubic-bezier(.4,0,.2,1)';
             // Force reflow
             void children.offsetHeight;
             children.style.height = '0';
@@ -64,7 +66,10 @@ window.TreeChart = (function () {
         setTimeout(function () {
             collapse.classList.remove('tc-open');
             node.classList.remove('tc-open');
-            collapse.querySelectorAll('.tc-hiding').forEach(function (el) { el.classList.remove('tc-hiding'); });
+            collapse.querySelectorAll('.tc-hiding').forEach(function (el) {
+                el.classList.remove('tc-hiding');
+                el.style.removeProperty('--tc-delay');
+            });
             if (children) {
                 children.style.height = '';
                 children.style.overflow = '';
