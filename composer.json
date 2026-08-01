@@ -1,0 +1,53 @@
+{
+    "name": "tmc/laravel-tree-chart",
+    "description": "Framework-agnostic tree structure chart for Laravel Blade. Pure Blade component, inline CSS/JS, no Bootstrap or Livewire required.",
+    "keywords": [
+        "laravel",
+        "blade",
+        "tree",
+        "chart",
+        "org-chart",
+        "pohon-kinerja"
+    ],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/view": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0",
+        "laravel/pint": "^1.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tmc\\LaravelTreeChart\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tmc\\LaravelTreeChart\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tmc\\LaravelTreeChart\\TreeChartServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "pint": "vendor/bin/pint"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
