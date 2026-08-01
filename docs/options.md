@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Options
-parent: Home
+title: Opsi
+parent: Beranda
 nav_order: 4
 ---
 
-# Options
+# Opsi
 
-Pass options per component, or set global defaults in `config/tree-chart.php`
-(publish with `php artisan vendor:publish --tag=tree-chart-config`).
-Per-component options always win.
+Kirim opsi per komponen, atau atur default global di `config/tree-chart.php`
+(publish dengan `php artisan vendor:publish --tag=tree-chart-config`).
+Opsi per-komponen selalu menang.
 
 ```blade
 <x-tree-chart :nodes="$nodes" :options="[
@@ -19,29 +19,29 @@ Per-component options always win.
 ]" />
 ```
 
-## Reference
+## Referensi
 
-| Option | Type | Default | Description |
+| Opsi | Tipe | Default | Deskripsi |
 | --- | --- | --- | --- |
-| `title` | string \| null | `null` | Title rendered above the tree. |
-| `subtitle` | string \| null | `null` | Muted subtitle below the title. |
-| `colors` | array | `['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1']` | Palette applied per depth level (index 0 = root). A node's own `color` overrides it. |
-| `card_width` | int | `260` | Default card width in px. |
-| `photo` | bool | `true` | Master switch for the avatar. `true` always renders it (node `photo` or the placeholder); `false` never renders it, even when a node provides a photo. |
-| `photo_placeholder` | string \| null | *inline SVG data-URI* | Fallback image shown when a node has no `photo`. Set to `null` to hide the avatar area entirely for photo-less nodes. |
-| `side_width` | int | `500` | Default side-panel width in px. |
-| `animate` | bool | `true` | Staggered enter/exit animations for cards and connector lines. |
-| `connector` | string | `dashed` | Connector line style: `dashed` or `solid`. |
-| `collapsible` | bool | `true` | Render a chevron that toggles children. |
-| `expand_level` | `'all'` \| `'click'` \| int | `'all'` | Initial expansion. `'all'` shows every node expanded; `'click'` starts everything collapsed (expand via chevron); an integer N auto-expands levels `0..N` and collapses deeper ones. An explicit node `collapsed` flag always wins. |
-| `side_toggle` | bool | `true` | Render a switch to show/hide side panels. |
-| `scrollable` | bool | `true` | Wrap the tree in a horizontally scrollable container. |
-| `demo` | bool | `false` | Register the `/tree-chart/demo` route (development only). |
+| `title` | string \| null | `null` | Judul yang dirender di atas pohon. |
+| `subtitle` | string \| null | `null` | Subjudul redup di bawah judul. |
+| `colors` | array | `['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1']` | Palet yang diterapkan per level kedalaman (index 0 = root). `color` milik node sendiri mengesampingkannya. |
+| `card_width` | int | `260` | Lebar kartu default dalam px. |
+| `photo` | bool | `true` | Saklar utama untuk avatar. `true` selalu merendernya (photo node atau placeholder); `false` tidak pernah merendernya, bahkan jika node menyediakan photo. |
+| `photo_placeholder` | string \| null | *inline SVG data-URI* | Gambar cadangan yang ditampilkan ketika node tidak punya `photo`. Set ke `null` untuk menyembunyikan area avatar sepenuhnya bagi node tanpa foto. |
+| `side_width` | int | `500` | Lebar panel samping default dalam px. |
+| `animate` | bool | `true` | Animasi masuk/keluar bertahap (staggered) untuk kartu dan garis penghubung. |
+| `connector` | string | `dashed` | Gaya garis penghubung: `dashed` atau `solid`. |
+| `collapsible` | bool | `true` | Render chevron untuk membuka/melipat anak. |
+| `expand_level` | `'all'` \| `'click'` \| int | `'all'` | Perluasan awal. `'all'` menampilkan semua node terbuka; `'click'` memulai semuanya terlipat (buka lewat chevron); integer N otomatis membuka level `0..N` dan melipat level yang lebih dalam. Flag `collapsed` eksplisit pada node selalu menang. |
+| `side_toggle` | bool | `true` | Render switch untuk menampilkan/menyembunyikan panel samping. |
+| `scrollable` | bool | `true` | Membungkus pohon dalam kontainer yang bisa di-scroll horizontal. |
+| `demo` | bool | `false` | Mendaftarkan route `/tree-chart/demo` (hanya untuk pengembangan). |
 
-## Colors
+## Warna
 
-Each depth level picks its color from `colors`. A node that defines `color`
-uses its own value instead:
+Setiap level kedalaman mengambil warnanya dari `colors`. Node yang mendefinisikan
+`color` memakai nilainya sendiri:
 
 ```php
 $options = ['colors' => ['#4e73df', '#1cc88a', '#36b9cc']];
@@ -50,9 +50,9 @@ $options = ['colors' => ['#4e73df', '#1cc88a', '#36b9cc']];
 // depth 2         -> #36b9cc
 ```
 
-## Config file
+## File config
 
-The published config:
+Config yang di-publish:
 
 ```php
 <?php

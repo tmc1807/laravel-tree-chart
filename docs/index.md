@@ -1,36 +1,37 @@
 ---
 layout: default
-title: Home
+title: Beranda
 nav_order: 1
 ---
 
 # laravel-tree-chart
 
-**Framework-agnostic tree structure chart for Laravel Blade.**
+**Diagram struktur pohon untuk Laravel Blade yang framework-agnostic.**
 
-A single, self-contained Blade component that renders any nested tree as an
-interactive diagram — with colored cards per level, animated connector lines,
-collapsible nodes, side panels, and the ability to hide branches. No Bootstrap,
-no Livewire, no external JS/CSS: all styles and scripts are injected inline,
-only once per page.
+Komponen Blade tunggal dan mandiri yang merender pohon bersarang apa pun
+sebagai diagram interaktif — dengan kartu berwarna per level, garis penghubung
+beranimasi, node yang bisa dilipat, panel samping, dan kemampuan menyembunyikan
+cabang. Tanpa Bootstrap, tanpa Livewire, tanpa JS/CSS eksternal: semua style
+dan script disuntikkan inline, hanya sekali per halaman.
 
-> Originally extracted from an RPJMD *pohon kinerja* (performance tree) module.
-> Suitable for org charts, goal cascades, family trees, sitemaps, and more.
+> Awalnya diekstrak dari modul RPJMD *pohon kinerja*.
+> Cocok untuk bagan organisasi, kaskade tujuan, pohon keluarga, peta situs,
+> dan lainnya.
 
-## Features
+## Fitur
 
-- **Data-driven** — pass any nested array/collection/objects; only `id` and `label` are required.
-- **No UI dependencies** — own minimal CSS + vanilla JS, prefixed with `tc-` to avoid collisions.
-- **Inline assets** — styles/scripts emitted once per page (`@once`); nothing to publish or build.
-- **Collapsible nodes** — animated show/hide of children.
-- **Optional photos** — circular avatar per node, with a placeholder when the node has no photo.
-- **Side panels** — optional panel (any HTML/Blade) to the right of a card, toggleable via a switch.
-- **Hideable nodes** — the `×` button hides a branch and leaves a clickable badge near the root.
-- **Livewire-friendly** — auto-initializes trees added after page load, with no Livewire dependency.
-- **Multiple instances** — several trees on one page share a single CSS/JS block.
-- **Configurable** — per-level colors, card/side widths, animations, connector style.
+- **Data-driven** — terima array/collection/object bersarang apa pun; hanya `id` dan `label` yang wajib.
+- **Tanpa dependensi UI** — CSS minimal + vanilla JS sendiri, dengan prefiks `tc-` agar tidak bertabrakan.
+- **Aset inline** — style/script hanya dikeluarkan sekali per halaman (`@once`); tidak ada yang perlu di-publish atau di-build.
+- **Node dapat dilipat** — tampil/sembunyi anak dengan animasi.
+- **Foto opsional** — avatar bulat per node, dengan placeholder jika node tidak punya foto.
+- **Panel samping** — panel opsional (HTML/Blade apa pun) di sebelah kanan kartu, bisa di-toggle lewat switch.
+- **Node dapat disembunyikan** — tombol `×` menyembunyikan cabang dan menyisakan badge yang bisa diklik di dekat root.
+- **Ramah Livewire** — menginisialisasi pohon yang ditambahkan setelah halaman dimuat, tanpa dependensi Livewire.
+- **Banyak instance** — beberapa pohon dalam satu halaman berbagi satu blok CSS/JS.
+- **Dapat dikonfigurasi** — warna per level, lebar kartu/panel samping, animasi, gaya konektor.
 
-## Quick preview
+## Pratinjau cepat
 
 ```php
 $nodes = [
@@ -47,21 +48,21 @@ $nodes = [
 ];
 ```
 
-Photo bersifat **opsional**: jika `photo` ada maka gambar tersebut yang ditampilkan
+Foto bersifat **opsional**: jika `photo` ada maka gambar tersebut yang ditampilkan
 sebagai avatar bulat; jika tidak ada, placeholder dari opsi `photo_placeholder`
-yang muncul (lihat [Node schema](node-schema.html) dan [Options](options.html)).
+yang muncul (lihat [Skema node](node-schema.html) dan [Opsi](options.html)).
 
 ```blade
 <x-tree-chart :nodes="$nodes" :options="['title' => 'Pohon Kinerja RPJMD 2025 - 2030']" />
 ```
 
-## Documentation
+## Dokumentasi
 
-- [Getting started](getting-started.html) — install & first tree.
-- [Node schema](node-schema.html) — every node field explained.
-- [Options](options.html) — configuration reference.
-- [Advanced](advanced.html) — demo page, customization, Livewire, FAQ.
+- [Memulai](getting-started.html) — instalasi & pohon pertama.
+- [Skema node](node-schema.html) — penjelasan setiap field node.
+- [Opsi](options.html) — referensi konfigurasi.
+- [Lanjutan](advanced.html) — halaman demo, kustomisasi, Livewire, FAQ.
 
-## License
+## Lisensi
 
-MIT — see [LICENSE](https://github.com/tmc1807/laravel-tree-chart/blob/main/LICENSE).
+MIT — lihat [LICENSE](https://github.com/tmc1807/laravel-tree-chart/blob/main/LICENSE).

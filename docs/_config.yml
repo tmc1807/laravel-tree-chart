@@ -1,6 +1,6 @@
 # laravel-tree-chart docs
 title: laravel-tree-chart
-description: Framework-agnostic tree structure chart for Laravel Blade
+description: Diagram struktur pohon untuk Laravel Blade yang framework-agnostic
 remote_theme: just-the-docs/just-the-docs
 color_scheme: light
 
@@ -8,7 +8,7 @@ url: https://tmc1807.github.io/laravel-tree-chart
 
 # just-the-docs configuration
 aux_links:
-  "laravel-tree-chart on GitHub":
+  "laravel-tree-chart di GitHub":
     - "https://github.com/tmc1807/laravel-tree-chart"
 aux_links_new_tab: true
 search_enabled: true

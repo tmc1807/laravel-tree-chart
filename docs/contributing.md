@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Contributing
-parent: Home
+title: Kontribusi
+parent: Beranda
 nav_order: 6
 ---
 
-# Contributing
+# Kontribusi
 
-## Development setup
+## Pengaturan pengembangan
 
 ```bash
 git clone https://github.com/tmc1807/laravel-tree-chart.git
@@ -15,26 +15,26 @@ cd laravel-tree-chart
 composer install
 ```
 
-## Running tests
+## Menjalankan test
 
 ```bash
 composer test
 ```
 
-Runs Pest with Orchestra Testbench (15 tests covering rendering, node
-normalization, `@once` deduplication and the demo route).
+Menjalankan Pest dengan Orchestra Testbench (28 test yang mencakup rendering,
+normalisasi node, deduplikasi `@once`, dan route demo).
 
-## Code style
+## Gaya kode
 
 ```bash
 composer pint
 ```
 
-## Documentation site
+## Situs dokumentasi
 
-The GitHub Pages documentation lives in [`docs/`](https://github.com/tmc1807/laravel-tree-chart/tree/main/docs)
-and is built automatically by GitHub Pages (branch `main`, folder `/docs`)
-using the `just-the-docs` remote theme. To preview locally:
+Dokumentasi GitHub Pages berada di [`docs/`](https://github.com/tmc1807/laravel-tree-chart/tree/main/docs)
+dan dibangun otomatis oleh GitHub Pages (branch `main`, folder `/docs`)
+menggunakan theme jarak jauh `just-the-docs`. Untuk pratinjau lokal:
 
 ```bash
 gem install bundler
@@ -43,17 +43,18 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Then open <http://localhost:4000>.
+Lalu buka <http://localhost:4000>.
 
-> The GitHub Pages builder resolves `remote_theme: just-the-docs` on its own;
-> the `Gemfile` (github-pages gem) is only for local preview.
+> Pembangun GitHub Pages menyelesaikan `remote_theme: just-the-docs` sendiri;
+> `Gemfile` (gem github-pages) hanya untuk pratinjau lokal.
 
-## Feature checklist for a PR
+## Checklist fitur untuk sebuah PR
 
-- [ ] Tests added/updated and passing (`composer test`).
-- [ ] Pint clean (`composer pint`).
-- [ ] Docs updated (README and/or `docs/`) when behavior changes.
+- [ ] Test ditambahkan/diperbarui dan lolos (`composer test`).
+- [ ] Pint bersih (`composer pint`).
+- [ ] Docs diperbarui (README dan/atau `docs/`) saat perilaku berubah.
 
-## License
+## Lisensi
 
-MIT. By contributing you agree your changes are released under the same license.
+MIT. Dengan berkontribusi, Anda menyetujui perubahan Anda dirilis di bawah
+lisensi yang sama.

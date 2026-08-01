@@ -1,43 +1,43 @@
 ---
 layout: default
-title: Node schema
-parent: Home
+title: Skema Node
+parent: Beranda
 nav_order: 3
 ---
 
-# Node schema
+# Skema Node
 
-A node is any nested array (or object / `Collection` — everything is normalized
-automatically). Only `id` and `label` are required.
+Node adalah array bersarang apa pun (atau object / `Collection` — semuanya
+dinormalkan secara otomatis). Hanya `id` dan `label` yang wajib.
 
-| Key | Type | Description |
+| Key | Tipe | Deskripsi |
 | --- | --- | --- |
-| `id` | string | Unique id. Used for DOM ids, collapse targets, hide/restore. |
-| `header` | string | Text in the colored header bar (e.g. `Misi 1`). Omit to hide the header bar. |
-| `label` | string | Main text in the card body. |
-| `sub_label` | string | Secondary muted text below the label. |
-| `badge` | string | Small pill in the body (e.g. `3 Tujuan`). |
-| `badge_color` | string | Pill color. Defaults to the node color. |
-| `photo` | string | Optional image URL shown as a circular avatar. When omitted (or empty) the card shows the `photo_placeholder` image instead. |
-| `position` | string | Where the node renders relative to its parent: `down` (below, default) or `side` (beside the parent card, connected by a horizontal line). |
-| `color` | string | Hex color for card border, header background and connector lines. Falls back to the per-level palette. |
-| `width` | int | Card width in px. Defaults to the `card_width` option. |
-| `children` | array | Nested child nodes (recursive). |
-| `side` | string \| Htmlable | Side-panel content rendered as-is (`{!! !!}`). Pass `view('name', [...])` or raw HTML. |
-| `side_visible` | bool | Whether the side panel starts visible. Default `true`. |
-| `collapsed` | bool | Start with children collapsed. Default `false`. |
-| `hideable` | bool | Show a `×` button that hides the branch into a badge. Default `false`. |
+| `id` | string | Id unik. Dipakai untuk DOM id, target collapse, sembunyikan/pulihkan. |
+| `header` | string | Teks pada baris header berwarna (mis. `Misi 1`). Hapus untuk menyembunyikan baris header. |
+| `label` | string | Teks utama pada badan kartu. |
+| `sub_label` | string | Teks sekunder redup di bawah label. |
+| `badge` | string | Pill kecil pada badan kartu (mis. `3 Tujuan`). |
+| `badge_color` | string | Warna pill. Default mengikuti warna node. |
+| `photo` | string | URL gambar opsional yang ditampilkan sebagai avatar bulat. Jika tidak ada (atau kosong), kartu menampilkan gambar `photo_placeholder` sebagai gantinya. |
+| `position` | string | Tempat node dirender relatif terhadap parent: `down` (di bawah, default) atau `side` (di samping kartu parent, dihubungkan garis horizontal). |
+| `color` | string | Warna hex untuk border kartu, latar header, dan garis penghubung. Jatuh ke palet per level jika tidak ada. |
+| `width` | int | Lebar kartu dalam px. Default mengikuti opsi `card_width`. |
+| `children` | array | Node anak bersarang (rekursif). |
+| `side` | string \| Htmlable | Konten panel samping yang dirender apa adanya (`{!! !!}`). Bisa `view('name', [...])` atau HTML mentah. |
+| `side_visible` | bool | Apakah panel samping mulai terlihat. Default `true`. |
+| `collapsed` | bool | Mulai dengan anak terlipat. Default `false`. |
+| `hideable` | bool | Tampilkan tombol `×` untuk menyembunyikan cabang menjadi badge. Default `false`. |
 
-Any extra keys are preserved in `extra` and ignored by the renderer.
+Key tambahan apa pun disimpan di `extra` dan diabaikan oleh renderer.
 
-## Example
+## Contoh
 
 ```php
 $nodes = [
     [
         'id'          => 'root',
         'header'      => 'Root',
-        'label'       => 'Main objective',
+        'label'       => 'Tujuan utama',
         'sub_label'   => 'Periode 2025 - 2030',
         'badge'       => '3 anak',
         'badge_color' => '#1cc88a',
@@ -52,13 +52,14 @@ $nodes = [
 ];
 ```
 
-## Side panels
+## Panel samping
 
-The `side` field is rendered with `{!! !!}`, so you can pass any renderable:
+Field `side` dirender dengan `{!! !!}`, jadi Anda bisa mengoper apa pun yang
+bisa dirender:
 
-- `view('partials.indicator', [...])` — a Blade partial (e.g. an indicator table).
-- Raw HTML string.
-- Anything implementing `Htmlable` / `Stringable`.
+- `view('partials.indicator', [...])` — partial Blade (mis. tabel indikator).
+- String HTML mentah.
+- Apa pun yang mengimplementasikan `Htmlable` / `Stringable`.
 
 ```php
 'side' => view('partials.indicator', [
@@ -70,16 +71,16 @@ The `side` field is rendered with `{!! !!}`, so you can pass any renderable:
 ]),
 ```
 
-The panel appears to the right of the card, connected by a dashed line. If the
-`side_toggle` option is enabled, a switch in the card header shows/hides it.
+Panel muncul di sebelah kanan kartu, dihubungkan garis putus-putus. Jika opsi
+`side_toggle` diaktifkan, sebuah switch di header kartu akan menampilkan/menyembunyikannya.
 
-## Photos
+## Foto
 
-`photo` is optional. The card renders a circular avatar using the URL; when the
-field is missing/empty the configured `photo_placeholder` (see [Options](options.md))
-is shown instead. Set `photo_placeholder` to `null` to hide the avatar area
-entirely for nodes without a photo. The whole feature can be turned off with the
-`photo` option (`false` hides the avatar even when a node provides a photo).
+`photo` bersifat opsional. Kartu merender avatar bulat menggunakan URL; jika
+field tidak ada/kosong, `photo_placeholder` yang dikonfigurasi (lihat [Opsi](options.md))
+yang ditampilkan. Set `photo_placeholder` ke `null` untuk menyembunyikan area
+avatar sepenuhnya bagi node tanpa foto. Seluruh fitur bisa dimatikan dengan
+opsi `photo` (`false` menyembunyikan avatar bahkan jika node menyediakan photo).
 
 ```php
 [
@@ -91,7 +92,7 @@ entirely for nodes without a photo. The whole feature can be turned off with the
 
 ## Builder helper
 
-Prefer a fluent API? Use the `Node` builder instead of arrays:
+Lebih suka API fluent? Gunakan builder `Node` alih-alih array:
 
 ```php
 use Tmc\LaravelTreeChart\Data\Node;
@@ -110,13 +111,13 @@ $nodes = [
 ];
 ```
 
-Available methods: `id()`, `header()`, `label()`, `subLabel()`, `badge()`,
+Metode yang tersedia: `id()`, `header()`, `label()`, `subLabel()`, `badge()`,
 `photo()`, `position()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
 `children()`, `child()`, `side()`, `extra()`.
 
-## Side placement
+## Penempatan samping
 
-A child can render **beside** its parent instead of below it with
+Sebuah anak bisa dirender **di samping** parent-nya, bukan di bawahnya, dengan
 `'position' => 'side'`:
 
 ```php
@@ -132,6 +133,6 @@ $nodes = [
 ];
 ```
 
-Side children are drawn to the right of the parent card, connected by a short
-horizontal line, and can themselves contain further children. `down` children
-(the default) render below the parent as usual.
+Anak `side` digambar di sebelah kanan kartu parent, dihubungkan garis horizontal
+pendek, dan bisa berisi anak lagi. Anak `down` (default) dirender di bawah
+parent seperti biasa.

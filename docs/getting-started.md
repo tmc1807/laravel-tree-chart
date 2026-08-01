@@ -1,33 +1,33 @@
 ---
 layout: default
-title: Getting started
-parent: Home
+title: Memulai
+parent: Beranda
 nav_order: 2
 ---
 
-# Getting started
+# Memulai
 
-## Requirements
+## Persyaratan
 
 - PHP 8.2+
 - Laravel 11 / 12
 
-## Installation
+## Instalasi
 
 ```bash
 composer require tmc1807/laravel-tree-chart
 ```
 
-Laravel auto-discovers the service provider. If your app has package discovery
-disabled, register it manually in `bootstrap/providers.php`:
+Laravel meng-auto-discovery service provider. Jika aplikasi Anda menonaktifkan
+package discovery, daftarkan secara manual di `bootstrap/providers.php`:
 
 ```php
 Tmc\LaravelTreeChart\TreeChartServiceProvider::class,
 ```
 
-### Local development (path repository)
+### Pengembangan lokal (path repository)
 
-To develop or test against a local checkout of the package:
+Untuk mengembangkan atau menguji dengan checkout lokal dari package:
 
 ```json
 {
@@ -41,9 +41,9 @@ To develop or test against a local checkout of the package:
 composer require tmc1807/laravel-tree-chart:@dev
 ```
 
-## Your first tree
+## Pohon pertama Anda
 
-Create the node data (for example in a controller):
+Buat data node (misalnya di controller):
 
 ```php
 $nodes = [
@@ -72,28 +72,28 @@ $nodes = [
 ];
 ```
 
-Render it in any Blade view:
+Render di view Blade mana pun:
 
 ```blade
 <x-tree-chart :nodes="$nodes" :options="$options ?? []" />
 ```
 
-That's it. The component injects its own CSS and JavaScript — nothing to
-publish, nothing to include in your layout.
+Selesai. Komponen menyuntikkan CSS dan JavaScript-nya sendiri — tidak ada yang
+perlu di-publish, tidak ada yang perlu ditambahkan ke layout Anda.
 
-## Publishing the config (optional)
+## Mempublish config (opsional)
 
-To tweak the global defaults:
+Untuk mengubah default global:
 
 ```bash
 php artisan vendor:publish --tag=tree-chart-config
 ```
 
-The published file lives at `config/tree-chart.php`. Per-component `:options`
-always take precedence over the config.
+File hasil publish berada di `config/tree-chart.php`. `:options` per-komponen
+selalu mengalahkan config.
 
-## Next steps
+## Langkah berikutnya
 
-- Learn about every [node field](node-schema.html).
-- Browse the [options reference](options.html).
-- See the [demo page](advanced.html) and [customization](advanced.html).
+- Pelajari setiap [field node](node-schema.html).
+- Baca [referensi opsi](options.html).
+- Lihat [halaman demo](advanced.html) dan [kustomisasi](advanced.html).

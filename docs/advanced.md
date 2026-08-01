@@ -1,109 +1,110 @@
 ---
 layout: default
-title: Advanced
-parent: Home
+title: Lanjutan
+parent: Beranda
 nav_order: 5
 ---
 
-# Advanced
+# Lanjutan
 
-## Demo page
+## Halaman demo
 
-A sample page ships with the package. Enable it only in development:
+Halaman contoh disertakan dalam package. Aktifkan hanya saat pengembangan:
 
 ```bash
 # .env
 TREECHART_DEMO=true
 ```
 
-Then point the config at the env value (if you published it):
+Lalu arahkan config ke nilai env (jika Anda sudah mem-publish-nya):
 
 ```php
 'demo' => env('TREECHART_DEMO', false),
 ```
 
-Visit `/tree-chart/demo`. When `demo` is `false` (the default) the route is not
-registered.
+Kunjungi `/tree-chart/demo`. Ketika `demo` bernilai `false` (default), route
+tidak didaftarkan.
 
 ## Styling
 
-All CSS is scoped under `.tc-tree-chart` with a `tc-` prefix, so it will not
-collide with your app styles. Override it with plain CSS after the component
-renders — for example:
+Semua CSS dikelompokkan di bawah `.tc-tree-chart` dengan prefiks `tc-`, sehingga
+tidak akan bertabrakan dengan style aplikasi Anda. Timpa dengan CSS biasa setelah
+komponen dirender — contoh:
 
 ```css
 .tc-tree-chart .tc-card { border-radius: 6px; }
 .tc-tree-chart .tc-head { text-transform: none; }
 ```
 
-Key class names:
+Nama class utama:
 
-| Class | Element |
+| Class | Elemen |
 | --- | --- |
-| `.tc-tree-chart` | Root wrapper (also carries `tc-animate`, `tc-connector-dashed`). |
-| `.tc-tree`, `.tc-tree-scroll` | Tree layout + horizontal scroll. |
-| `.tc-node`, `.tc-up` | Node column and the vertical connector line. |
-| `.tc-tree-children`, `.tc-hline` | Sibling row and horizontal connector. |
-| `.tc-anchor`, `.tc-card` | Card wrapper and card. |
-| `.tc-head`, `.tc-body`, `.tc-title`, `.tc-sub`, `.tc-badge` | Card parts. |
-| `.tc-side`, `.tc-side-card`, `.tc-side-connector` | Side panel. |
-| `.tc-collapse` (+ `.tc-open`) | Collapsible children container. |
-| `.tc-switch` | Pure-CSS toggle switch. |
-| `.tc-hidden-badges`, `.tc-hidden-badge` | Hide/restore badges near the root. |
+| `.tc-tree-chart` | Pembungkus root (juga membawa `tc-animate`, `tc-connector-dashed`). |
+| `.tc-tree`, `.tc-tree-scroll` | Layout pohon + scroll horizontal. |
+| `.tc-node`, `.tc-up` | Kolom node dan garis konektor vertikal. |
+| `.tc-tree-children`, `.tc-hline` | Baris sibling dan konektor horizontal. |
+| `.tc-anchor`, `.tc-card` | Pembungkus kartu dan kartu. |
+| `.tc-head`, `.tc-body`, `.tc-title`, `.tc-sub`, `.tc-badge` | Bagian-bagian kartu. |
+| `.tc-side`, `.tc-side-card`, `.tc-side-connector` | Panel samping. |
+| `.tc-collapse` (+ `.tc-open`) | Kontainer anak yang bisa dilipat. |
+| `.tc-switch` | Saklar toggle murni CSS. |
+| `.tc-hidden-badges`, `.tc-hidden-badge` | Badge sembunyikan/pulihkan di dekat root. |
 
 ## JavaScript
 
-A single `window.TreeChart` object is injected once per page:
+Satu object `window.TreeChart` disuntikkan sekali per halaman:
 
-- `TreeChart.init(root?)` — initialize any not-yet-initialized charts in `root`.
-- `TreeChart.updateHlines(root?)` — recalculate connector line positions.
-- `TreeChart.stagger(root?)` — replay the staggered entrance animation.
-- `TreeChart.toggleCollapse(node)` — expand/collapse a node's children.
-- `TreeChart.toggleSide(input)` — toggle a side panel.
-- `TreeChart.hideNode(domId)` — hide a branch into a badge.
+- `TreeChart.init(root?)` — menginisialisasi chart apa pun yang belum diinisialisasi di `root`.
+- `TreeChart.updateHlines(root?)` — menghitung ulang posisi garis penghubung.
+- `TreeChart.stagger(root?)` — memutar ulang animasi masuk bertahap.
+- `TreeChart.toggleCollapse(node)` — membuka/melipat anak sebuah node.
+- `TreeChart.toggleSide(input)` — mengaktifkan/menonaktifkan panel samping.
+- `TreeChart.hideNode(domId)` — menyembunyikan cabang menjadi badge.
 
-The script auto-initializes on `DOMContentLoaded` and watches the DOM with a
-`MutationObserver`, so trees added later (including via Livewire morphs) are
-picked up automatically.
+Script menginisialisasi otomatis saat `DOMContentLoaded` dan mengamati DOM dengan
+`MutationObserver`, sehingga pohon yang ditambahkan kemudian (termasuk lewat
+morph Livewire) akan terambil secara otomatis.
 
 ## Livewire
 
-No integration code is required. The component renders plain HTML; the observer
-re-initializes charts whenever new nodes appear in the DOM. If you re-render a
-tree and want the connector lines to re-align, call:
+Tidak diperlukan kode integrasi. Komponen merender HTML biasa; observer
+menginisialisasi ulang chart setiap kali node baru muncul di DOM. Jika Anda
+merender ulang sebuah pohon dan ingin garis penghubung sejajar kembali,
+panggil:
 
 ```js
 TreeChart.updateHlines();
 ```
 
-## Hiding a branch programmatically
+## Menyembunyikan cabang secara terprogram
 
-Every hideable node renders a `×` button. To hide a branch from your own code,
-call the same helper the button uses:
+Setiap node yang bisa disembunyikan merender tombol `×`. Untuk menyembunyikan
+cabang dari kode Anda sendiri, panggil helper yang sama yang dipakai tombol:
 
 ```js
 TreeChart.hideNode('tc-<uid>-<node-id>');
 ```
 
-The `<uid>` and sanitized `<node-id>` make up the node's `data-tc-dom`.
+`<uid>` dan `<node-id>` yang sudah di-sanitasi membentuk `data-tc-dom` node.
 
 ## FAQ
 
-**Can I render several trees on one page?**
-Yes. Multiple `<x-tree-chart>` components share a single CSS/JS block (`@once`)
-and each tree initializes independently.
+**Bisakah saya merender beberapa pohon dalam satu halaman?**
+Ya. Beberapa komponen `<x-tree-chart>` berbagi satu blok CSS/JS (`@once`)
+dan setiap pohon menginisialisasi secara independen.
 
-**Do I need Bootstrap or Livewire?**
-No. The package is self-contained; both are optional.
+**Apakah saya butuh Bootstrap atau Livewire?**
+Tidak. Package ini mandiri; keduanya opsional.
 
-**Can I use Eloquent models directly?**
-Yes — any object with a `toArray()` method (models, `Data` objects) is
-normalized automatically. Only `id`/`label` need to exist.
+**Bisakah saya memakai model Eloquent secara langsung?**
+Ya — object apa pun dengan metode `toArray()` (model, object `Data`) akan
+dinormalkan secara otomatis. Hanya `id`/`label` yang perlu ada.
 
-**Why do connector lines disappear on some screenshots?**
-Horizontal lines are measured at runtime and only drawn for rows that actually
-render. If a row is fully collapsed, its lines are intentionally hidden.
+**Mengapa garis penghubung hilang pada beberapa screenshot?**
+Garis horizontal diukur saat runtime dan hanya digambar untuk baris yang benar-benar
+dirender. Jika sebuah baris terlipat penuh, garisnya sengaja disembunyikan.
 
-## Contributing
+## Kontribusi
 
-See [Contributing](contributing.html).
+Lihat [Kontribusi](contributing.html).
