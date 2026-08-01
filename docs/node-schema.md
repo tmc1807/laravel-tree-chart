@@ -19,6 +19,7 @@ automatically). Only `id` and `label` are required.
 | `badge` | string | Small pill in the body (e.g. `3 Tujuan`). |
 | `badge_color` | string | Pill color. Defaults to the node color. |
 | `photo` | string | Optional image URL shown as a circular avatar. When omitted (or empty) the card shows the `photo_placeholder` image instead. |
+| `position` | string | Where the node renders relative to its parent: `down` (below, default) or `side` (beside the parent card, connected by a horizontal line). |
 | `color` | string | Hex color for card border, header background and connector lines. Falls back to the per-level palette. |
 | `width` | int | Card width in px. Defaults to the `card_width` option. |
 | `children` | array | Nested child nodes (recursive). |
@@ -110,5 +111,27 @@ $nodes = [
 ```
 
 Available methods: `id()`, `header()`, `label()`, `subLabel()`, `badge()`,
-`photo()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
+`photo()`, `position()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
 `children()`, `child()`, `side()`, `extra()`.
+
+## Side placement
+
+A child can render **beside** its parent instead of below it with
+`'position' => 'side'`:
+
+```php
+$nodes = [
+    [
+        'id'    => 'kepala',
+        'label' => 'Kepala Daerah',
+        'children' => [
+            ['id' => 'sekda', 'label' => 'Sekretariat Daerah', 'position' => 'side'],
+            ['id' => 'dinas', 'label' => 'Dinas Pendidikan', 'position' => 'down'],
+        ],
+    ],
+];
+```
+
+Side children are drawn to the right of the parent card, connected by a short
+horizontal line, and can themselves contain further children. `down` children
+(the default) render below the parent as usual.

@@ -33,6 +33,8 @@ class Node
 
     public ?string $photo = null;
 
+    public string $position = 'down';
+
     public ?string $color = null;
 
     public ?int $width = null;
@@ -100,6 +102,17 @@ class Node
     public function photo(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Where this node renders relative to its parent: 'side' (beside the
+     * parent card) or 'down' (below the parent, the default).
+     */
+    public function position(string $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }
@@ -186,6 +199,7 @@ class Node
             'badge' => $this->badge,
             'badge_color' => $this->badgeColor,
             'photo' => $this->photo,
+            'position' => $this->position,
             'color' => $this->color,
             'width' => $this->width,
             'collapsed' => $this->collapsed,

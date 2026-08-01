@@ -84,6 +84,7 @@ class TreeChart extends Component
             'badge' => $node['badge'] ?? null,
             'badge_color' => $node['badge_color'] ?? null,
             'photo' => $node['photo'] ?? null,
+            'position' => ($node['position'] ?? 'down') === 'side' ? 'side' : 'down',
             'color' => $node['color'] ?? null,
             'width' => $node['width'] ?? null,
             'collapsed' => array_key_exists('collapsed', $node)

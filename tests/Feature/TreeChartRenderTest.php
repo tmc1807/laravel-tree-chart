@@ -130,6 +130,52 @@ it('lets an explicit collapsed flag override expand_level', function () {
         ->not->toContain('tc-collapse tc-open');
 });
 
+it('renders side-positioned children beside the parent card', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'children' => [
+                ['id' => 's1', 'label' => 'Samping', 'position' => 'side'],
+                ['id' => 'd1', 'label' => 'Bawah', 'position' => 'down'],
+            ],
+        ]],
+        'options' => [],
+    ])->render();
+
+    expect($html)
+        ->toContain('tc-anchor-row')
+        ->toContain('tc-side-node')
+        ->toContain('Samping')
+        ->toContain('Bawah');
+});
+
+it('keeps side-positioned children out of the down-children row', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'children' => [
+                ['id' => 's1', 'label' => 'Samping', 'position' => 'side'],
+                ['id' => 'd1', 'label' => 'Bawah'],
+            ],
+        ]],
+        'options' => [],
+    ])->render();
+
+    $anchorRowPos = strpos($html, 'class="tc-anchor-row"');
+    $collapsePos = strpos($html, 'class="tc-collapse');
+    $sideLabelPos = strpos($html, 'Samping');
+    $downLabelPos = strpos($html, 'Bawah');
+
+    expect($sideLabelPos)->not->toBeFalse()
+        ->and($downLabelPos)->not->toBeFalse()
+        ->and($anchorRowPos)->not->toBeFalse()
+        ->and($collapsePos)->not->toBeFalse()
+        ->and($sideLabelPos)->toBeLessThan($collapsePos)
+        ->and($downLabelPos)->toBeGreaterThan($collapsePos);
+});
+
 it('injects styles and scripts only once per page', function () {
     $html = view('two-trees', [
         'nodesA' => [['id' => 'a', 'label' => 'A']],

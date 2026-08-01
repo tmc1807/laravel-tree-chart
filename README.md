@@ -108,6 +108,7 @@ $nodes = [
 | `badge` | string | Small pill shown in the body (e.g. `3 Tujuan`). |
 | `badge_color` | string | Pill color; defaults to the node color. |
 | `photo` | string | Optional image URL rendered as a circular avatar. If empty, the `photo_placeholder` option is shown instead. |
+| `position` | string | Placement relative to parent: `down` (below, default) or `side` (beside the parent card). |
 | `color` | string | Hex color for card border, header, and lines. Falls back to the level palette. |
 | `width` | int | Card width in px; defaults to `card_width` option. |
 | `children` | array | Nested nodes. |

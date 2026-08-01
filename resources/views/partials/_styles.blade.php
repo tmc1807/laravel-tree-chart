@@ -73,6 +73,19 @@
 .tc-anchor { position: relative; }
 .tc-anchor .tc-card { width: 100%; }
 
+/* row holding the parent card + side-placed children */
+.tc-anchor-row { display: flex; align-items: flex-start; gap: 0; position: relative; }
+.tc-side-node { display: flex; align-items: flex-start; position: relative; }
+.tc-side-node-connector {
+    width: 18px; height: 2px; flex-shrink: 0; position: relative; align-self: center;
+    border-top: 2px dashed var(--tc-connector-color, #6c757d);
+}
+.tc-side-node-connector::after {
+    content: ''; position: absolute; right: -4px; top: -4px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--tc-connector-color, #6c757d); z-index: 2;
+}
+
 .tc-card {
     border: 1px solid #e9ecef; border-radius: 10px; background: #fff;
     box-shadow: 0 1px 2px rgba(0,0,0,.06); overflow: hidden;
