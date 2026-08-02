@@ -30,7 +30,7 @@ Opsi per-komponen selalu menang.
 | `card_gap` | int | `14` | Jarak horizontal antar kartu sibling dalam px. |
 | `card_height` | int \| null | `null` | Tinggi minimum kartu dalam px agar semua kartu seragam. `null` = mengikuti isi kartu. |
 | `font_size` | int | `11` | Ukuran font dasar kartu dalam px (header & judul). Sub-label otomatis mengecil secara proporsional. |
-| `photo` | bool | `true` | Saklar utama untuk avatar. `true` selalu merendernya (photo node atau placeholder); `false` tidak pernah merendernya, bahkan jika node menyediakan photo. |
+| `photo` | bool | `true` | Saklar utama untuk avatar. `true` selalu merendernya (photo node atau placeholder); `false` tidak pernah merendernya, bahkan jika node menyediakan photo. Node juga bisa menyembunyikan avatarnya sendiri dengan `photo => false` (lihat [Skema Node](node-schema.md)). |
 | `photo_placeholder` | string \| null | *inline SVG data-URI* | Gambar cadangan yang ditampilkan ketika node tidak punya `photo`. Set ke `null` untuk menyembunyikan area avatar sepenuhnya bagi node tanpa foto. |
 | `side_width` | int | `500` | Lebar panel samping default dalam px. |
 | `animate` | bool | `true` | Animasi masuk/keluar bertahap (staggered) untuk kartu dan garis penghubung. |

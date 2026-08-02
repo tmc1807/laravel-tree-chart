@@ -64,6 +64,9 @@ return [
     |           otherwise the `photo_placeholder` image.
     | - false : never render the avatar, even when a node provides `photo`.
     |
+    | A per-node override is also available: setting `photo => false` on a
+    | single node hides its avatar while the feature stays enabled globally.
+    |
     */
 
     'photo' => true,

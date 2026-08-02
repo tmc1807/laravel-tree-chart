@@ -27,7 +27,7 @@ class Node
 
     public string $subLabel = '';
 
-    public ?string $photo = null;
+    public string|false|null $photo = null;
 
     public string $position = 'down';
 
@@ -87,7 +87,7 @@ class Node
         return $this;
     }
 
-    public function photo(?string $photo): static
+    public function photo(string|false|null $photo): static
     {
         $this->photo = $photo;
 

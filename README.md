@@ -115,7 +115,7 @@ $nodes = [
 | `header` | string | Teks pada baris header berwarna (mis. `Misi 1`). Hapus untuk menyembunyikan baris header. |
 | `label` | string | Teks utama pada badan kartu. |
 | `sub_label` | string | Teks sekunder redup pada badan kartu. |
-| `photo` | string | URL gambar opsional yang dirender sebagai avatar bulat. Jika kosong, opsi `photo_placeholder` yang ditampilkan. |
+| `photo` | string \| false | URL gambar opsional yang dirender sebagai avatar bulat. Jika kosong, opsi `photo_placeholder` yang ditampilkan. Set `false` untuk menyembunyikan avatar pada node ini saja (walau opsi `photo` global aktif). |
 | `position` | string | Penempatan relatif terhadap parent: `down` (ke bawah, default) atau `side` (ke samping kartu parent). |
 | `color` | string | Warna hex untuk border kartu, header, dan garis. Jatuh ke palet per level jika tidak ada. |
 | `width` | int | Lebar kartu dalam px; default mengikuti opsi `card_width`. |
@@ -161,7 +161,7 @@ $options = [
     'card_gap'    => 14, // jarak horizontal antar kartu (px)
     'card_height' => null, // tinggi minimum kartu (px); null = mengikuti isi
     'font_size'   => 11, // ukuran font kartu (px); sub-label mengikuti secara proporsional
-    'photo'       => true, // saklar utama: false menyembunyikan avatar bahkan jika node punya photo
+    'photo'       => true, // saklar utama: false menyembunyikan avatar bahkan jika node punya photo; node bisa override sendiri dengan 'photo' => false
     'photo_placeholder' => 'data:image/svg+xml,...', // fallback jika node tanpa photo; null menyembunyikan avatar
     'side_width'  => 500,
     'animate'     => true,

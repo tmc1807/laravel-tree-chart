@@ -133,11 +133,23 @@ class TreeChart extends Component
     /**
      * Resolve the image source for a node: node photo, or the configured
      * placeholder when the node has no photo. Null disables the photo area.
+     *
+     * `photo => false` on a node hides the avatar for that node even when the
+     * `photo` option is enabled. The master `photo` option disables avatars
+     * for every node.
      */
     public function photoFor(array $node): ?string
     {
+        if (($node['photo'] ?? null) === false) {
+            return null;
+        }
+
         if (! empty($node['photo'])) {
             return $node['photo'];
+        }
+
+        if (($this->options['photo'] ?? true) === false) {
+            return null;
         }
 
         return $this->options['photo_placeholder'] ?? null;

@@ -16,7 +16,7 @@ dinormalkan secara otomatis). Hanya `id` dan `label` yang wajib.
 | `header` | string | Teks pada baris header berwarna (mis. `Misi 1`). Hapus untuk menyembunyikan baris header. |
 | `label` | string | Teks utama pada badan kartu. |
 | `sub_label` | string | Teks sekunder redup di bawah label. |
-| `photo` | string | URL gambar opsional yang ditampilkan sebagai avatar bulat. Jika tidak ada (atau kosong), kartu menampilkan gambar `photo_placeholder` sebagai gantinya. |
+| `photo` | string \| false | URL gambar opsional yang ditampilkan sebagai avatar bulat. Jika tidak ada (atau kosong), kartu menampilkan gambar `photo_placeholder` sebagai gantinya. Set `false` untuk menyembunyikan avatar pada node ini saja, walau opsi `photo` global aktif. |
 | `position` | string | Tempat node dirender relatif terhadap parent: `down` (ke bawah, default) atau `side` (ke samping kartu parent, dihubungkan garis horizontal). |
 | `color` | string | Warna hex untuk border kartu, latar header, dan garis penghubung. Jatuh ke palet per level jika tidak ada. |
 | `width` | int | Lebar kartu dalam px. Default mengikuti opsi `card_width`. |
@@ -78,6 +78,17 @@ yang ditampilkan. Set `photo_placeholder` ke `null` untuk menyembunyikan area
 avatar sepenuhnya bagi node tanpa foto. Seluruh fitur bisa dimatikan dengan
 opsi `photo` (`false` menyembunyikan avatar bahkan jika node menyediakan photo).
 
+Untuk menyembunyikan avatar pada **satu node saja** (walau opsi `photo` global
+aktif), set `photo` node ke `false`:
+
+```php
+[
+    'id'    => 'instansi-kosong',
+    'label' => 'Dinas Tanpa Pegawai',
+    'photo' => false, // tidak menampilkan avatar untuk node ini
+]
+```
+
 ```php
 [
     'id'    => 'kepala-daerah',
@@ -107,7 +118,8 @@ $nodes = [
 ```
 
 Metode yang tersedia: `id()`, `header()`, `label()`, `subLabel()`,
-`photo()`, `position()`, `color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
+`photo()` (lewat `false` untuk menyembunyikan avatar node), `position()`,
+`color()`, `width()`, `collapsed()`, `sideVisible()`, `hideable()`,
 `children()`, `child()`, `side()`, `extra()`.
 
 ## Penempatan node

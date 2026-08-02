@@ -1,5 +1,8 @@
 <?php
 
+use Tmc\LaravelTreeChart\Components\TreeChart;
+use Tmc\LaravelTreeChart\Data\Node;
+
 it('renders root nodes and their labels', function () {
     $html = view('tree', [
         'nodes' => [['id' => 'a', 'label' => 'Alpha']],
@@ -382,4 +385,61 @@ it('hides the photo area when node has no photo and no placeholder is set', func
 
     expect($html)
         ->not->toContain('class="tc-photo"');
+});
+
+it('hides the photo area for a node that sets photo to false', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'photo' => false,
+        ]],
+        'options' => ['photo' => true, 'photo_placeholder' => 'https://example.test/placeholder.png'],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('class="tc-photo"')
+        ->not->toContain('src="https://example.test/placeholder.png"');
+});
+
+it('hides the photo only on the node that sets photo to false', function () {
+    $html = view('tree', [
+        'nodes' => [
+            ['id' => 'a', 'label' => 'Alpha', 'photo' => false],
+            ['id' => 'b', 'label' => 'Beta', 'photo' => 'https://example.test/avatar.jpg'],
+        ],
+        'options' => ['photo' => true, 'photo_placeholder' => 'https://example.test/placeholder.png'],
+    ])->render();
+
+    expect(substr_count($html, 'class="tc-photo'))
+        ->toBe(1)
+        ->and($html)
+        ->toContain('src="https://example.test/avatar.jpg"')
+        ->not->toContain('src="https://example.test/placeholder.png"');
+});
+
+it('hides the photo area when the fluent builder disables the photo', function () {
+    $html = view('tree', [
+        'nodes' => [
+            Node::make('a', 'Alpha')->photo(false),
+        ],
+        'options' => ['photo' => true, 'photo_placeholder' => 'https://example.test/placeholder.png'],
+    ])->render();
+
+    expect($html)
+        ->not->toContain('class="tc-photo"')
+        ->not->toContain('src="https://example.test/placeholder.png"');
+});
+
+it('resolves photoFor to null when a node disables its photo', function () {
+    $chart = new TreeChart([], ['photo' => true, 'photo_placeholder' => 'https://example.test/placeholder.png']);
+
+    expect($chart->photoFor(['id' => 'a', 'photo' => false]))
+        ->toBeNull()
+        ->and($chart->photoFor(['id' => 'b']))
+        ->toBe('https://example.test/placeholder.png')
+        ->and($chart->photoFor(['id' => 'c', 'photo' => 'https://example.test/avatar.jpg']))
+        ->toBe('https://example.test/avatar.jpg')
+        ->and($chart->photoFor(['id' => 'd', 'photo' => 'https://example.test/avatar.jpg']))
+        ->not->toBeNull();
 });
