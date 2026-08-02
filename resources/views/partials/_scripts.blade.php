@@ -64,6 +64,9 @@ window.TreeChart = (function () {
             } else {
                 TreeChart.settleAnimations(scope);
             }
+            // Re-run layout once the entrance animation has settled so all
+            // connector/panel geometry is computed from final card positions.
+            TreeChart.updateHlines();
         }, 2000);
     }
 

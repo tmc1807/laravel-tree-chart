@@ -146,7 +146,7 @@
     border-top-style: solid;
 }
 .tc-side-node-connector::after {
-    content: ''; position: absolute; right: -4px; top: -4px;
+    content: ''; position: absolute; left: -4px; top: -4px;
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--tc-connector-color, #6c757d); z-index: 2;
 }
@@ -215,7 +215,7 @@
     border-top-style: solid;
 }
 .tc-side-connector::after {
-    content: ''; position: absolute; right: -4px; top: -4px;
+    content: ''; position: absolute; left: -4px; top: -4px;
     width: 8px; height: 8px; border-radius: 50%; background: var(--tc-node-color, #6c757d); z-index: 2;
 }
 .tc-side-card { width: 100%; }
