@@ -27,6 +27,8 @@ class Node
 
     public string $subLabel = '';
 
+    public string $body = '';
+
     public string|false|null $photo = null;
 
     public string $position = 'down';
@@ -83,6 +85,13 @@ class Node
     public function subLabel(string $subLabel): static
     {
         $this->subLabel = $subLabel;
+
+        return $this;
+    }
+
+    public function body(string $body): static
+    {
+        $this->body = $body;
 
         return $this;
     }
@@ -184,6 +193,7 @@ class Node
             'header' => $this->header,
             'label' => $this->label,
             'sub_label' => $this->subLabel,
+            'body' => $this->body,
             'photo' => $this->photo,
             'position' => $this->position,
             'color' => $this->color,

@@ -520,6 +520,48 @@ window.TreeChart = (function () {
             });
         },
 
+        alignVerticalChildren: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
+                var nodes = Array.from(container.children).filter(function (el) {
+                    return el.classList.contains('tc-node') && el.style.display !== 'none';
+                });
+                if (nodes.length < 2) return;
+
+                var maxBottom = -Infinity;
+                var cardData = [];
+
+                nodes.forEach(function (node) {
+                    var row = node.querySelector(':scope > .tc-anchor-row');
+                    var card = row ? row.querySelector(':scope > .tc-anchor > .tc-card') : null;
+                    if (!card) return;
+                    var r = card.getBoundingClientRect();
+                    if (r.width <= 0 || r.height <= 0) return;
+                    var bottom = r.bottom;
+                    if (bottom > maxBottom) maxBottom = bottom;
+                    cardData.push({ node: node, row: row, cardBottom: bottom });
+                });
+
+                if (maxBottom === -Infinity) return;
+
+                var gap = 12;
+                var g = parseFloat(getComputedStyle(container).getPropertyValue('--tc-card-gap'));
+                if (g > 0) gap = g;
+                var targetBottom = maxBottom + gap;
+
+                cardData.forEach(function (d) {
+                    if (d.cardBottom >= targetBottom) return;
+                    var delta = targetBottom - d.cardBottom;
+                    var h = d.row.offsetHeight;
+                    var newMin = h + delta;
+                    var cur = parseFloat(d.row.style.minHeight) || 0;
+                    if (newMin > cur) {
+                        d.row.style.minHeight = Math.round(newMin) + 'px';
+                    }
+                });
+            });
+        },
+
         syncSideConnectors: function (root) {
             var scope = root || document;
             scope.querySelectorAll('.tc-side.show').forEach(function (side) {
@@ -702,6 +744,7 @@ window.TreeChart = (function () {
             TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
             TreeChart.syncVerticalConnectors(scope);
+            TreeChart.alignVerticalChildren(scope);
             TreeChart.syncSideConnectors(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
                 var hline = container.querySelector(':scope > .tc-hline');

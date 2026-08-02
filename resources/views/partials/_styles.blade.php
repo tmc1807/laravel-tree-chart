@@ -176,10 +176,11 @@
 .tc-btn-close:hover { opacity: 1; }
 
 .tc-body {
-    padding: .5rem; display: flex; align-items: center;
-    justify-content: space-between; gap: .5rem;
+    padding: .5rem; display: flex; align-items: flex-start;
+    justify-content: space-between; gap: .5rem; flex-direction: column; flex: 1;
 }
-.tc-body-text { min-width: 0; flex: 1; }
+.tc-body-text { min-width: 0; flex: 1; width: 100%; }
+.tc-body-content { width: 100%; overflow: auto; }
 .tc-photo {
     flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
     overflow: hidden; background: #e9ecef; border: 2px solid var(--tc-node-color, #6c757d);

@@ -47,6 +47,9 @@
                         @if($node['sub_label'] !== '')
                             <span class="tc-sub">{{ $node['sub_label'] }}</span>
                         @endif
+                        @if(!empty($node['body']))
+                            <div class="tc-body-content">{!! $node['body'] !!}</div>
+                        @endif
                     </div>
                     <div class="tc-body-controls">
                         @if($node['has_side'] && ($options['side_toggle'] ?? true))
