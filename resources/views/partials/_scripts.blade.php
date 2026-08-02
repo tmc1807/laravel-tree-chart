@@ -128,6 +128,7 @@ window.TreeChart = (function () {
                 if (node) node.style.marginRight = (chart.getAttribute('data-tc-side-width') || 500) + 'px';
             });
             TreeChart.syncSideHeights(chart);
+            TreeChart.resolveSideOverlaps(chart);
 
             var scroll = chart.querySelector('.tc-tree-scroll');
             var bar = chart.querySelector('[data-tc-scrollbar]');
@@ -316,16 +317,95 @@ window.TreeChart = (function () {
 
         syncSideHeights: function (root) {
             var scope = root || document;
-            var sides = [];
-            if (scope.classList && scope.classList.contains('tc-side') && scope.classList.contains('show')) {
-                sides.push(scope);
+            var rows = [];
+
+            if (scope.classList && scope.classList.contains('tc-anchor-row')) {
+                rows.push(scope);
+            } else if (scope.classList && scope.classList.contains('tc-side')) {
+                var ownRow = closest(scope, '.tc-anchor-row');
+                if (ownRow) rows.push(ownRow);
             }
-            scope.querySelectorAll('.tc-side.show').forEach(function (s) { sides.push(s); });
-            sides.forEach(function (side) {
-                var row = closest(side, '.tc-anchor-row');
-                if (!row) return;
-                var h = side.offsetHeight;
-                row.style.minHeight = h > 0 ? (h + 'px') : '';
+            var found = scope.querySelectorAll('.tc-anchor-row');
+            for (var f = 0; f < found.length; f++) rows.push(found[f]);
+
+            rows.reverse().forEach(function (row) {
+                var needed = 0;
+
+                var side = row.querySelector(':scope > .tc-anchor > .tc-side.show');
+                if (side && side.offsetHeight > needed) needed = side.offsetHeight;
+
+                var sideNodes = row.querySelectorAll(':scope > .tc-side-node');
+                for (var k = 0; k < sideNodes.length; k++) {
+                    var h = sideNodes[k].offsetHeight;
+                    if (h > needed) needed = h;
+                }
+
+                row.style.minHeight = needed > 0 ? (needed + 'px') : '';
+            });
+        },
+
+        resolveSideOverlaps: function (root) {
+            var scope = root || document;
+            var charts = [];
+            if (scope.classList && scope.classList.contains('tc-tree-chart')) charts.push(scope);
+            var foundCharts = scope.querySelectorAll('.tc-tree-chart');
+            for (var c = 0; c < foundCharts.length; c++) charts.push(foundCharts[c]);
+
+            charts.forEach(function (chart) {
+                var gap = 8;
+                var g = parseFloat(getComputedStyle(chart).getPropertyValue('--tc-card-gap'));
+                if (g > 0) gap = g;
+
+                var guard = 0, changed = true;
+                while (changed && guard++ < 40) {
+                    changed = false;
+
+                    var floats = [];
+                    chart.querySelectorAll('.tc-side.show').forEach(function (side) {
+                        var r = side.getBoundingClientRect();
+                        if (r.width > 0 && r.height > 0) floats.push({ el: side, rect: r });
+                    });
+                    chart.querySelectorAll('.tc-side-node').forEach(function (sn) {
+                        var r = sn.getBoundingClientRect();
+                        if (r.width > 0 && r.height > 0) floats.push({ el: sn, rect: r });
+                    });
+                    if (!floats.length) return;
+
+                    chart.querySelectorAll('.tc-collapse .tc-card').forEach(function (card) {
+                        if (!card.offsetParent) return;
+                        var cr = card.getBoundingClientRect();
+                        if (cr.width <= 0 || cr.height <= 0) return;
+
+                        for (var i = 0; i < floats.length; i++) {
+                            var f = floats[i];
+                            if (f.rect.width <= 0 || f.rect.height <= 0) continue;
+                            if (f.el.contains(card)) continue;
+                            if (f.rect.bottom <= cr.top + 1) continue;
+                            if (f.rect.top >= cr.bottom - 1) continue;
+                            if (f.rect.right <= cr.left + 1 || cr.right <= f.rect.left + 1) continue;
+
+                            var delta = (f.rect.bottom - cr.top) + gap;
+                            var node = closest(card, '.tc-node');
+                            if (!node) continue;
+                            var collapse = node.querySelector(':scope > .tc-collapse');
+                            var target = (collapse && collapse.contains(card)) ? node : null;
+                            if (!target && node.parentElement) {
+                                target = node.parentElement.closest('.tc-node');
+                            }
+                            if (!target) continue;
+                            var row = target.querySelector(':scope > .tc-anchor-row');
+                            if (!row) continue;
+
+                            var h = row.offsetHeight;
+                            var newMin = h + delta;
+                            var cur = parseFloat(row.style.minHeight) || 0;
+                            if (newMin > cur) {
+                                row.style.minHeight = Math.round(newMin) + 'px';
+                                changed = true;
+                            }
+                        }
+                    });
+                }
             });
         },
 
@@ -474,6 +554,7 @@ window.TreeChart = (function () {
         updateHlines: function (root) {
             var scope = root || document;
             TreeChart.syncSideHeights(scope);
+            TreeChart.resolveSideOverlaps(scope);
             TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
