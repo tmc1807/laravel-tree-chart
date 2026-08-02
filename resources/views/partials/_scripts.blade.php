@@ -551,11 +551,23 @@ window.TreeChart = (function () {
                     void tree.offsetHeight;
                 }
 
-                // Scroll to reveal the rightmost card so side panels
-                // and wide subtrees are never cut off at the viewport edge.
-                var sr = scroll.getBoundingClientRect();
-                var need = Math.ceil(b.maxR - sr.right);
-                if (need > 1) scroll.scrollLeft += need;
+                // First layout: center the tree horizontally instead of snapping
+                // to the right edge. While no node has been interacted with yet,
+                // re-center on each passive re-layout so the final geometry
+                // (padding, side panels) lands exactly in the middle. Once the
+                // user interacts (collapse/side toggle), fall back to revealing
+                // the rightmost card so panels and wide subtrees stay visible.
+                var mode = chart.getAttribute('data-tc-scroll-mode');
+                if (!mode || mode === 'center') {
+                    if (scroll.scrollWidth > scroll.clientWidth + 2) {
+                        chart.setAttribute('data-tc-scroll-mode', 'center');
+                        scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2);
+                    }
+                } else if (mode === 'reveal') {
+                    var sr = scroll.getBoundingClientRect();
+                    var need = Math.ceil(b.maxR - sr.right);
+                    if (need > 1) scroll.scrollLeft += need;
+                }
 
                 TreeChart.updateScrollbar(scroll);
             });
@@ -667,6 +679,8 @@ window.TreeChart = (function () {
 
         toggleCollapse: function (node) {
             if (!node) return;
+            var chart = closest(node, '.tc-tree-chart');
+            if (chart) chart.setAttribute('data-tc-scroll-mode', 'reveal');
             var collapse = node.querySelector(':scope > .tc-collapse');
             if (!collapse) return;
             var caret = node.querySelector(':scope > .tc-anchor-row > .tc-anchor .tc-caret');
@@ -706,6 +720,7 @@ window.TreeChart = (function () {
             if (!side) return;
             var node = closest(side, '.tc-node');
             var chart = closest(side, '.tc-tree-chart');
+            if (chart) chart.setAttribute('data-tc-scroll-mode', 'reveal');
             var width = parseInt(chart ? chart.getAttribute('data-tc-side-width') : '500', 10) || 500;
 
             if (input.checked) {
