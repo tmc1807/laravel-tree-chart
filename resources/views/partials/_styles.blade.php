@@ -78,7 +78,8 @@
     transition: gap .35s cubic-bezier(.16,1,.3,1), padding-top .35s cubic-bezier(.16,1,.3,1);
 }
 .tc-tree-children::before {
-    content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 20px;
+    content: ''; position: absolute; top: calc(-1 * var(--tc-pad-top, 0px)); left: 50%; width: 2px;
+    height: calc(20px + var(--tc-pad-top, 0px));
     background: var(--tc-children-color, #6c757d);
     transform: translateX(-1px);
 }
@@ -201,7 +202,7 @@
 
 /* ===== Side panel ===== */
 .tc-side {
-    position: absolute; top: 0; left: 100%; display: none; align-items: center;
+    position: absolute; top: 0; left: 100%; display: none; align-items: flex-start;
     z-index: 3; width: var(--tc-side-width, 500px);
 }
 .tc-side.show { display: flex; }

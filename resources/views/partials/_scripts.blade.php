@@ -409,6 +409,38 @@ window.TreeChart = (function () {
             });
         },
 
+        syncVerticalConnectors: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-node').forEach(function (node) {
+                var collapse = node.querySelector(':scope > .tc-collapse');
+                if (!collapse || !collapse.classList.contains('tc-open')) return;
+                var card = node.querySelector(':scope > .tc-anchor-row > .tc-anchor > .tc-card');
+                if (!card) return;
+                var cardBottom = card.getBoundingClientRect().bottom;
+                var collapseTop = collapse.getBoundingClientRect().top;
+                collapse.style.setProperty('--tc-pad-top', Math.max(0, Math.round(collapseTop - cardBottom)) + 'px');
+            });
+        },
+
+        syncSideConnectors: function (root) {
+            var scope = root || document;
+            scope.querySelectorAll('.tc-side.show').forEach(function (side) {
+                var row = closest(side, '.tc-anchor-row');
+                if (!row) return;
+                var card = row.querySelector(':scope > .tc-anchor > .tc-card');
+                if (!card) return;
+                var rowRect = row.getBoundingClientRect();
+                var cardRect = card.getBoundingClientRect();
+                var cardMid = cardRect.top + cardRect.height / 2;
+                var connector = side.querySelector(':scope > .tc-side-connector');
+                if (!connector) return;
+                var top = cardMid - rowRect.top - 1;
+                var panelH = side.offsetHeight;
+                if (panelH > 0) top = Math.min(top, panelH - 2);
+                connector.style.marginTop = Math.max(0, Math.round(top)) + 'px';
+            });
+        },
+
         layoutDownNodes: function (root) {
             var scope = root || document;
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
@@ -557,6 +589,8 @@ window.TreeChart = (function () {
             TreeChart.resolveSideOverlaps(scope);
             TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
+            TreeChart.syncVerticalConnectors(scope);
+            TreeChart.syncSideConnectors(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
                 var hline = container.querySelector(':scope > .tc-hline');
                 if (!hline) return;
