@@ -4,8 +4,34 @@ window.TreeChart = (function () {
     var SIDE_HIDING = 320;
     var COLLAPSE_HIDING = 700;
     var HIDE_NODE_HIDING = 480;
+    var CARET_TURN_DELAY = 250;
 
     function closest(el, sel) { return el.closest ? el.closest(sel) : null; }
+
+    function ensureLightbox() {
+        var lb = document.getElementById('tc-lightbox');
+        if (lb) return lb;
+        lb = document.createElement('div');
+        lb.className = 'tc-lightbox';
+        lb.id = 'tc-lightbox';
+        lb.innerHTML = '<figure class="tc-lightbox-figure">'
+            + '<img alt="">'
+            + '<figcaption class="tc-lightbox-caption"></figcaption>'
+            + '</figure>'
+            + '<button type="button" class="tc-lightbox-close" aria-label="Tutup">&times;</button>';
+        lb.addEventListener('click', function (e) {
+            if (e.target === lb || closest(e.target, '.tc-lightbox-close')) {
+                lb.classList.remove('show');
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && lb.classList.contains('show')) {
+                lb.classList.remove('show');
+            }
+        });
+        document.body.appendChild(lb);
+        return lb;
+    }
 
     function stagger(root) {
         var scope = root || document;
@@ -145,6 +171,12 @@ window.TreeChart = (function () {
             }
 
             chart.addEventListener('click', function (e) {
+                var photo = closest(e.target, '[data-tc-photo]');
+                if (photo) {
+                    e.stopPropagation();
+                    TreeChart.showPhoto(photo.getAttribute('data-tc-photo'), photo.getAttribute('data-tc-photo-alt') || '');
+                    return;
+                }
                 var caret = closest(e.target, '[data-tc-collapse]');
                 if (caret) {
                     e.stopPropagation();
@@ -157,11 +189,6 @@ window.TreeChart = (function () {
                     TreeChart.hideNode(hideBtn.getAttribute('data-tc-hide'));
                     return;
                 }
-                var card = closest(e.target, '.tc-card');
-                if (!card) return;
-                if (closest(e.target, '.tc-side-card')) return;
-                if (closest(e.target, '.tc-switch')) return;
-                TreeChart.toggleCollapse(closest(card, '.tc-node'));
             });
         },
 
@@ -507,26 +534,34 @@ window.TreeChart = (function () {
             if (!node) return;
             var collapse = node.querySelector(':scope > .tc-collapse');
             if (!collapse) return;
+            var caret = node.querySelector(':scope > .tc-anchor-row > .tc-anchor .tc-caret');
+            if (!caret) return;
 
             if (collapse.classList.contains('tc-open')) {
-                hideCollapse(node, function () {
-                    setTimeout(function () {
-                        TreeChart.updateHlines();
-                        TreeChart.settleAnimations(node);
-                    }, 30);
-                });
-            } else {
-                collapse.classList.add('tc-open');
-                node.classList.add('tc-open');
-                stagger(collapse);
+                caret.classList.remove('tc-rotated');
                 setTimeout(function () {
-                    TreeChart.updateHlines();
+                    hideCollapse(node, function () {
+                        setTimeout(function () {
+                            TreeChart.updateHlines();
+                            TreeChart.settleAnimations(node);
+                        }, 30);
+                    });
+                }, CARET_TURN_DELAY);
+            } else {
+                caret.classList.add('tc-rotated');
+                setTimeout(function () {
+                    collapse.classList.add('tc-open');
+                    node.classList.add('tc-open');
+                    stagger(collapse);
                     setTimeout(function () {
                         TreeChart.updateHlines();
-                        TreeChart.revealCollapseCards(collapse);
-                        setTimeout(function () { TreeChart.revealCollapseCards(collapse); }, 200);
+                        setTimeout(function () {
+                            TreeChart.updateHlines();
+                            TreeChart.revealCollapseCards(collapse);
+                            setTimeout(function () { TreeChart.revealCollapseCards(collapse); }, 200);
+                        }, 30);
                     }, 30);
-                }, 30);
+                }, CARET_TURN_DELAY);
             }
         },
 
@@ -623,6 +658,21 @@ window.TreeChart = (function () {
                 if (btn.dataset.tcBound) return;
                 btn.dataset.tcBound = '1';
             });
+        },
+
+        showPhoto: function (src, alt) {
+            if (!src) return;
+            var lb = ensureLightbox();
+            var img = lb.querySelector('img');
+            img.src = src;
+            img.alt = alt || '';
+            lb.querySelector('.tc-lightbox-caption').textContent = alt || '';
+            lb.classList.add('show');
+        },
+
+        hidePhoto: function () {
+            var lb = document.getElementById('tc-lightbox');
+            if (lb) lb.classList.remove('show');
         }
     };
 })();

@@ -34,7 +34,8 @@
                 @endif
                 <div class="tc-body">
                     @if($photoSrc)
-                        <div class="tc-photo">
+                        <div class="tc-photo{{ $node['has_photo'] ? ' tc-photo-clickable' : '' }}"
+                             @if($node['has_photo']) data-tc-photo="{{ $photoSrc }}" data-tc-photo-alt="{{ $photoAlt }}" @endif>
                             <img src="{{ $photoSrc }}" alt="{{ $photoAlt }}" loading="lazy">
                         </div>
                     @endif
@@ -57,9 +58,7 @@
                             </label>
                         @endif
                         @if($isCollapsible)
-                            <span class="tc-caret" data-tc-collapse style="background:{{ $color }};">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                            </span>
+                            <span class="tc-caret{{ $node['collapsed'] ? '' : ' tc-rotated' }}" data-tc-collapse></span>
                         @endif
                     </div>
                 </div>
