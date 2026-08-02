@@ -127,6 +127,7 @@ window.TreeChart = (function () {
                 var node = closest(side, '.tc-node');
                 if (node) node.style.marginRight = (chart.getAttribute('data-tc-side-width') || 500) + 'px';
             });
+            TreeChart.syncSideHeights(chart);
 
             var scroll = chart.querySelector('.tc-tree-scroll');
             var bar = chart.querySelector('[data-tc-scrollbar]');
@@ -313,6 +314,21 @@ window.TreeChart = (function () {
             });
         },
 
+        syncSideHeights: function (root) {
+            var scope = root || document;
+            var sides = [];
+            if (scope.classList && scope.classList.contains('tc-side') && scope.classList.contains('show')) {
+                sides.push(scope);
+            }
+            scope.querySelectorAll('.tc-side.show').forEach(function (s) { sides.push(s); });
+            sides.forEach(function (side) {
+                var row = closest(side, '.tc-anchor-row');
+                if (!row) return;
+                var h = side.offsetHeight;
+                row.style.minHeight = h > 0 ? (h + 'px') : '';
+            });
+        },
+
         layoutDownNodes: function (root) {
             var scope = root || document;
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
@@ -457,6 +473,7 @@ window.TreeChart = (function () {
 
         updateHlines: function (root) {
             var scope = root || document;
+            TreeChart.syncSideHeights(scope);
             TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
             scope.querySelectorAll('.tc-tree-children').forEach(function (container) {
@@ -576,6 +593,7 @@ window.TreeChart = (function () {
             if (input.checked) {
                 side.classList.add('show');
                 if (node) node.style.marginRight = width + 'px';
+                TreeChart.syncSideHeights(side);
                 stagger(side);
                 setTimeout(function () {
                     TreeChart.updateHlines();
@@ -607,6 +625,8 @@ window.TreeChart = (function () {
                     if (input.checked) return;
                     side.classList.remove('show');
                     if (node) node.style.marginRight = '';
+                    var sideRow = closest(side, '.tc-anchor-row');
+                    if (sideRow) sideRow.style.minHeight = '';
                     side.querySelectorAll('.tc-hiding').forEach(function (el) { el.classList.remove('tc-hiding'); });
                     setTimeout(function () {
                         TreeChart.updateHlines();
@@ -693,7 +713,7 @@ window.TreeChart = (function () {
 
     window.addEventListener('resize', function () {
         clearTimeout(TreeChart._resizeT);
-        TreeChart._resizeT = setTimeout(function () { TreeChart.updateHlines(); TreeChart.syncBars(); }, 120);
+        TreeChart._resizeT = setTimeout(function () { TreeChart.updateHlines(); TreeChart.syncSideHeights(); TreeChart.syncBars(); }, 120);
     });
 
     window.addEventListener('scroll', function () {
