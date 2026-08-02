@@ -27,6 +27,9 @@ Opsi per-komponen selalu menang.
 | `subtitle` | string \| null | `null` | Subjudul redup di bawah judul. |
 | `colors` | array | `['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1']` | Palet yang diterapkan per level kedalaman (index 0 = root). `color` milik node sendiri mengesampingkannya. |
 | `card_width` | int | `260` | Lebar kartu default dalam px. |
+| `card_gap` | int | `14` | Jarak horizontal antar kartu sibling dalam px. |
+| `card_height` | int \| null | `null` | Tinggi minimum kartu dalam px agar semua kartu seragam. `null` = mengikuti isi kartu. |
+| `font_size` | int | `11` | Ukuran font dasar kartu dalam px (header & judul). Sub-label otomatis mengecil secara proporsional. |
 | `photo` | bool | `true` | Saklar utama untuk avatar. `true` selalu merendernya (photo node atau placeholder); `false` tidak pernah merendernya, bahkan jika node menyediakan photo. |
 | `photo_placeholder` | string \| null | *inline SVG data-URI* | Gambar cadangan yang ditampilkan ketika node tidak punya `photo`. Set ke `null` untuk menyembunyikan area avatar sepenuhnya bagi node tanpa foto. |
 | `side_width` | int | `500` | Lebar panel samping default dalam px. |
@@ -60,6 +63,9 @@ Config yang di-publish:
 return [
     'colors'      => ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1'],
     'card_width'  => 260,
+    'card_gap'    => 14,
+    'card_height' => null,
+    'font_size'   => 11,
     'photo'       => true,
     'photo_placeholder' => 'data:image/svg+xml,...',
     'side_width'  => 500,

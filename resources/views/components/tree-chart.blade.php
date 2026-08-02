@@ -8,7 +8,7 @@
 <div class="tc-tree-chart{{ $options['animate'] ? ' tc-animate' : '' }}{{ $connectorClass }}"
      data-tc-uid="{{ $uid }}"
      data-tc-side-width="{{ $options['side_width'] ?? 500 }}"
-     style="--tc-side-width:{{ $options['side_width'] ?? 500 }}px;">
+     style="--tc-side-width:{{ $options['side_width'] ?? 500 }}px;--tc-card-gap:{{ $options['card_gap'] ?? 14 }}px;@if(! empty($options['card_height']))--tc-card-height:{{ $options['card_height'] }}px;@endif--tc-font-size:{{ $options['font_size'] ?? 11 }}px;">
 
     @if(! empty($options['title']) || ! empty($options['subtitle']))
         <div class="tc-header">

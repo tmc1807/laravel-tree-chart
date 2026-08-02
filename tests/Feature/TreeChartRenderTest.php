@@ -210,6 +210,50 @@ it('injects styles and scripts only once per page', function () {
         ->toBe(1);
 });
 
+it('uses the default card gap when not configured', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => [],
+    ])->render();
+
+    expect($html)->toContain('--tc-card-gap:14px');
+});
+
+it('honours a configured card gap', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['card_gap' => 30],
+    ])->render();
+
+    expect($html)->toContain('--tc-card-gap:30px');
+});
+
+it('honours a configured card height', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['card_height' => 120],
+    ])->render();
+
+    expect($html)->toContain('--tc-card-height:120px')
+        ->and($html)->toContain('min-height: var(--tc-card-height, auto);');
+});
+
+it('exposes the default font size and honours a custom one', function () {
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => [],
+    ])->render();
+
+    expect($html)->toContain('--tc-font-size:11px');
+
+    $html = view('tree', [
+        'nodes' => [['id' => 'a', 'label' => 'Alpha']],
+        'options' => ['font_size' => 14],
+    ])->render();
+
+    expect($html)->toContain('--tc-font-size:14px');
+});
+
 it('renders the sticky bottom scrollbar by default', function () {
     $html = view('tree', [
         'nodes' => [['id' => 'a', 'label' => 'Alpha']],

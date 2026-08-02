@@ -158,6 +158,9 @@ $options = [
     'subtitle'    => 'Akhir periode',
     'colors'      => ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#6f42c1'], // per level (depth 0 = root)
     'card_width'  => 260,
+    'card_gap'    => 14, // jarak horizontal antar kartu (px)
+    'card_height' => null, // tinggi minimum kartu (px); null = mengikuti isi
+    'font_size'   => 11, // ukuran font kartu (px); sub-label mengikuti secara proporsional
     'photo'       => true, // saklar utama: false menyembunyikan avatar bahkan jika node punya photo
     'photo_placeholder' => 'data:image/svg+xml,...', // fallback jika node tanpa photo; null menyembunyikan avatar
     'side_width'  => 500,
