@@ -270,6 +270,25 @@ it('renders the sticky bottom scrollbar by default', function () {
         ->toContain('TreeChart.updateScrollbar');
 });
 
+it('centers the tree only on first access without auto-scrolling after toggles', function () {
+    $html = view('tree', [
+        'nodes' => [[
+            'id' => 'a',
+            'label' => 'Alpha',
+            'children' => [['id' => 'b', 'label' => 'Beta']],
+        ]],
+        'options' => [],
+    ])->render();
+
+    expect($html)
+        ->toContain('data-tc-initial-focus')
+        ->toContain('!chart.hasAttribute(\'data-tc-initial-focus\')')
+        ->toContain('overflow-anchor: none;')
+        ->not->toContain('data-tc-scroll-mode')
+        ->not->toContain('revealCollapseCards')
+        ->not->toContain('scrollIntoView');
+});
+
 it('omits the sticky scrollbar when disabled', function () {
     $html = view('tree', [
         'nodes' => [['id' => 'a', 'label' => 'Alpha']],

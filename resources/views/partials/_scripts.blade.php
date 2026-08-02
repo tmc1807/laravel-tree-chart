@@ -788,51 +788,17 @@ window.TreeChart = (function () {
                     void tree.offsetHeight;
                 }
 
-                // First layout: center the tree horizontally instead of snapping
-                // to the right edge. While no node has been interacted with yet,
-                // re-center on each passive re-layout so the final geometry
-                // (padding, side panels) lands exactly in the middle. Once the
-                // user interacts (collapse/side toggle), fall back to revealing
-                // the rightmost card so panels and wide subtrees stay visible.
-                var mode = chart.getAttribute('data-tc-scroll-mode');
-                if (!mode || mode === 'center') {
+                // Center the tree only during its first layout. Later geometry
+                // updates must preserve the user's current scroll position.
+                if (!chart.hasAttribute('data-tc-initial-focus')) {
                     if (scroll.scrollWidth > scroll.clientWidth + 2) {
-                        chart.setAttribute('data-tc-scroll-mode', 'center');
                         scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2);
                     }
-                } else if (mode === 'reveal') {
-                    var sr = scroll.getBoundingClientRect();
-                    var need = Math.ceil(b.maxR - sr.right);
-                    if (need > 1) scroll.scrollLeft += need;
+                    chart.setAttribute('data-tc-initial-focus', '1');
                 }
 
                 TreeChart.updateScrollbar(scroll);
             });
-        },
-
-        revealCollapseCards: function (collapse) {
-            if (!collapse) return;
-            var scroll = closest(collapse, '.tc-tree-scroll');
-            if (!scroll) return;
-            var chart = closest(collapse, '.tc-tree-chart');
-            if (!chart) return;
-            var cards = chart.querySelectorAll('.tc-card');
-            var rightmost = null;
-            var maxRight = -Infinity;
-            for (var i = 0; i < cards.length; i++) {
-                var r = cards[i].getBoundingClientRect();
-                if (r.width <= 0 || r.height <= 0) continue;
-                if (r.right > maxRight) {
-                    maxRight = r.right;
-                    rightmost = cards[i];
-                }
-            }
-            if (!rightmost) return;
-            rightmost.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-            var lr = rightmost.getBoundingClientRect();
-            var sr = scroll.getBoundingClientRect();
-            var need = Math.ceil(lr.right - sr.right);
-            if (need > 1) scroll.scrollLeft += need;
         },
 
         updateHlines: function (root) {
@@ -923,8 +889,6 @@ window.TreeChart = (function () {
 
         toggleCollapse: function (node) {
             if (!node) return;
-            var chart = closest(node, '.tc-tree-chart');
-            if (chart) chart.setAttribute('data-tc-scroll-mode', 'reveal');
             var collapse = node.querySelector(':scope > .tc-collapse');
             if (!collapse) return;
             var caret = node.querySelector(':scope > .tc-anchor-row > .tc-anchor .tc-caret');
@@ -950,8 +914,6 @@ window.TreeChart = (function () {
                         TreeChart.updateHlines();
                         setTimeout(function () {
                             TreeChart.updateHlines();
-                            TreeChart.revealCollapseCards(collapse);
-                            setTimeout(function () { TreeChart.revealCollapseCards(collapse); }, 200);
                         }, 30);
                     }, 30);
                 }, CARET_TURN_DELAY);
@@ -964,7 +926,6 @@ window.TreeChart = (function () {
             if (!side) return;
             var node = closest(side, '.tc-node');
             var chart = closest(side, '.tc-tree-chart');
-            if (chart) chart.setAttribute('data-tc-scroll-mode', 'reveal');
             var width = parseInt(chart ? chart.getAttribute('data-tc-side-width') : '500', 10) || 500;
 
             if (input.checked) {
@@ -974,24 +935,6 @@ window.TreeChart = (function () {
                 stagger(side);
                 setTimeout(function () {
                     TreeChart.updateHlines();
-                    setTimeout(function () {
-                        TreeChart.updateHlines();
-                        var scroll = chart ? chart.querySelector('.tc-tree-scroll') : null;
-                        if (scroll) {
-                            var cards = chart.querySelectorAll('.tc-card');
-                            var maxRight = -Infinity;
-                            for (var i = 0; i < cards.length; i++) {
-                                var r = cards[i].getBoundingClientRect();
-                                if (r.width <= 0 || r.height <= 0) continue;
-                                if (r.right > maxRight) maxRight = r.right;
-                            }
-                            if (maxRight > -Infinity) {
-                                var sr = scroll.getBoundingClientRect();
-                                var need = Math.ceil(maxRight - sr.right);
-                                if (need > 1) scroll.scrollLeft += need;
-                            }
-                        }
-                    }, 30);
                 }, 20);
             } else {
                 side.querySelectorAll('.tc-card, .tc-side-connector').forEach(function (el, i) {

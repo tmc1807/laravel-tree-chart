@@ -5,6 +5,7 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #212529;
     line-height: 1.4;
+    overflow-anchor: none;
 }
 .tc-tree-chart * { box-sizing: border-box; }
 
@@ -16,6 +17,7 @@
 .tc-tree-scroll {
     overflow-x: auto;
     overflow-y: hidden;
+    overflow-anchor: none;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     position: relative;
