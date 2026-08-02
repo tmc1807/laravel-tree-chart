@@ -135,7 +135,7 @@
 .tc-side-node {
     position: absolute; left: 100%; top: 0;
     display: flex; align-items: flex-start; z-index: 2;
-    transition: left .35s cubic-bezier(.16,1,.3,1), top .35s cubic-bezier(.16,1,.3,1), opacity .25s ease;
+    transition: left .35s cubic-bezier(.16,1,.3,1), opacity .25s ease;
 }
 .tc-side-node-connector {
     position: absolute; left: -18px; top: 42px;
@@ -222,7 +222,7 @@
 .tc-side-card { width: 100%; }
 
 /* ===== Collapse ===== */
-.tc-collapse { display: none; transition: margin-top .35s cubic-bezier(.16,1,.3,1); }
+.tc-collapse { display: none; }
 .tc-collapse.tc-open { display: block; animation: tcCollapseIn .35s cubic-bezier(.16,1,.3,1) both; }
 @keyframes tcCollapseIn {
     from { opacity: 0; transform: translateY(-8px); }
