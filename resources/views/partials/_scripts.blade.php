@@ -270,9 +270,18 @@ window.TreeChart = (function () {
                     if (g > 0) gap = g;
                 }
 
+                // Rightmost edge already occupied in this row (the node's own
+                // shown side panel plus any previously placed side nodes with
+                // their panels reserved), so side nodes never overlap each
+                // other or the parent panel.
+                var cursorRight = cardRight;
+                var ownPanel = node ? node.querySelector(':scope > .tc-anchor-row > .tc-anchor > .tc-side.show') : null;
+                if (ownPanel) cursorRight = Math.max(cursorRight, cardRight + ownPanel.offsetWidth);
+
                 var reserve = 0;
                 sides.forEach(function (side) {
-                    var nodeW = side.offsetWidth;
+                    var nodeCard = side.querySelector(':scope > .tc-node > .tc-anchor-row > .tc-anchor > .tc-card');
+                    var nodeW = nodeCard ? nodeCard.offsetWidth : side.offsetWidth;
                     if (nodeW <= 0) return;
                     var overhang = Math.max(0, (nodeW - cardRect.width) / 2);
 
@@ -291,7 +300,7 @@ window.TreeChart = (function () {
                         }
                     }
 
-                    var sideLeft = Math.max(cardRight + gap - overhang, requiredRight + gap);
+                    var sideLeft = Math.max(cardRight + gap - overhang, requiredRight + gap, cursorRight + gap);
                     var cardLeft = sideLeft + overhang;
 
                     side.style.left = Math.round(sideLeft - rowRect.left) + 'px';
@@ -303,7 +312,14 @@ window.TreeChart = (function () {
                         connector.style.top = Math.round(cardMid - rowRect.top - 1) + 'px';
                     }
 
-                    reserve = Math.max(reserve, sideLeft + nodeW - cardRight);
+                    // Reserve the side node's own card + shown panel so the
+                    // next side node cannot overlap them.
+                    var sideCard = side.querySelector(':scope > .tc-node > .tc-anchor-row > .tc-anchor > .tc-card');
+                    var sideCardR = sideCard ? sideCard.getBoundingClientRect().right : sideLeft + nodeW;
+                    var sidePanel = side.querySelector(':scope > .tc-node > .tc-anchor-row > .tc-anchor > .tc-side.show');
+                    var panelW = sidePanel ? sidePanel.offsetWidth : 0;
+                    cursorRight = Math.max(cursorRight, sideCardR + panelW);
+                    reserve = Math.max(reserve, sideCardR + panelW - cardRight);
                 });
 
                 if (node) {
@@ -394,6 +410,85 @@ window.TreeChart = (function () {
                             var target = (collapse && collapse.contains(card)) ? node : null;
                             if (!target && node.parentElement) {
                                 target = node.parentElement.closest('.tc-node');
+                            }
+                            if (!target) continue;
+                            var row = target.querySelector(':scope > .tc-anchor-row');
+                            if (!row) continue;
+
+                            var h = row.offsetHeight;
+                            var newMin = h + delta;
+                            var cur = parseFloat(row.style.minHeight) || 0;
+                            if (newMin > cur) {
+                                row.style.minHeight = Math.round(newMin) + 'px';
+                                changed = true;
+                            }
+                        }
+                    });
+                }
+            });
+        },
+
+        resolveConnectorOverlaps: function (root) {
+            var scope = root || document;
+            var charts = [];
+            if (scope.classList && scope.classList.contains('tc-tree-chart')) charts.push(scope);
+            var foundCharts = scope.querySelectorAll('.tc-tree-chart');
+            for (var c = 0; c < foundCharts.length; c++) charts.push(foundCharts[c]);
+
+            charts.forEach(function (chart) {
+                var gap = 8;
+                var g = parseFloat(getComputedStyle(chart).getPropertyValue('--tc-card-gap'));
+                if (g > 0) gap = g;
+
+                var guard = 0, changed = true;
+                while (changed && guard++ < 40) {
+                    changed = false;
+
+                    var connectors = [];
+                    chart.querySelectorAll('.tc-up, .tc-hline, .tc-side-node-connector, .tc-side-connector').forEach(function (el) {
+                        var r = el.getBoundingClientRect();
+                        if (r.width > 0 && r.height > 0) connectors.push({ el: el, rect: r });
+                    });
+                    if (!connectors.length) return;
+
+                    chart.querySelectorAll('.tc-card').forEach(function (card) {
+                        if (!card.offsetParent) return;
+                        var cr = card.getBoundingClientRect();
+                        if (cr.width <= 0 || cr.height <= 0) return;
+
+                        var cardNode = closest(card, '.tc-node');
+                        if (!cardNode) return;
+
+                        for (var i = 0; i < connectors.length; i++) {
+                            var cn = connectors[i];
+                            if (cn.rect.bottom <= cr.top + 1) continue;
+                            if (cn.rect.top >= cr.bottom - 1) continue;
+                            if (cn.rect.right <= cr.left + 1 || cr.right <= cn.rect.left + 1) continue;
+
+                            var connNode = closest(cn.el, '.tc-node');
+                            if (connNode && connNode === cardNode) continue;
+                            if (connNode) {
+                                var connCollapse = connNode.querySelector(':scope > .tc-collapse');
+                                if (connCollapse && connCollapse.contains(card)) continue;
+                            }
+
+                            var delta = (cn.rect.bottom - cr.top) + gap;
+
+                            var sideNode = card.closest('.tc-side-node');
+                            if (sideNode) {
+                                var cur = parseFloat(sideNode.style.top) || 0;
+                                var newTop = cur + delta;
+                                if (newTop > cur) {
+                                    sideNode.style.top = Math.round(newTop) + 'px';
+                                    changed = true;
+                                }
+                                continue;
+                            }
+
+                            var collapse = cardNode.querySelector(':scope > .tc-collapse');
+                            var target = (collapse && collapse.contains(card)) ? cardNode : null;
+                            if (!target && cardNode.parentElement) {
+                                target = cardNode.parentElement.closest('.tc-node');
                             }
                             if (!target) continue;
                             var row = target.querySelector(':scope > .tc-anchor-row');
@@ -601,6 +696,8 @@ window.TreeChart = (function () {
         updateHlines: function (root) {
             var scope = root || document;
             TreeChart.syncSideHeights(scope);
+            TreeChart.layoutDownNodes(scope);
+            TreeChart.layoutSideNodes(scope);
             TreeChart.resolveSideOverlaps(scope);
             TreeChart.layoutDownNodes(scope);
             TreeChart.layoutSideNodes(scope);
